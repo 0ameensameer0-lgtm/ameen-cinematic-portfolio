@@ -23,8 +23,6 @@ import {
   MoonStar,
   Play,
   SunMedium,
-  Volume2,
-  VolumeX,
   X,
 } from "lucide-react";
 import {
@@ -49,8 +47,7 @@ type CursorState = { x: number; y: number };
 const navTargets = ["hero", "about", "skills", "projects", "resume", "contact"] as const;
 
 export function PortfolioExperience() {
-  const { language, setLanguage, theme, setTheme, soundEnabled, setSoundEnabled, playSound } =
-    useSite();
+  const { language, setLanguage, theme, setTheme, playSound } = useSite();
   const [loadingDone, setLoadingDone] = useState(false);
   const [loadingValue, setLoadingValue] = useState(0);
   const [activeNav, setActiveNav] = useState<(typeof navTargets)[number]>("hero");
@@ -297,7 +294,7 @@ export function PortfolioExperience() {
       </div>
 
       <header className="fixed inset-x-0 top-0 z-[95] px-4 py-4 md:px-8">
-          <div className="glass-panel-strong mx-auto flex w-full max-w-7xl items-center justify-between gap-3 rounded-full px-4 py-3 shadow-[0_18px_50px_rgba(0,0,0,0.25)] md:px-6">
+          <div className="glass-panel-strong mx-auto flex w-full max-w-7xl items-center justify-between gap-4 rounded-full px-4 py-3 shadow-[0_18px_50px_rgba(0,0,0,0.25)] md:px-6">
           <button
             className="group flex items-center gap-3"
             onClick={() => scrollToSection("hero")}
@@ -350,15 +347,6 @@ export function PortfolioExperience() {
               checked={theme === "light"}
               onCheckedChange={(checked) => {
                 setTheme(checked ? "light" : "dark");
-                playSound("click");
-              }}
-            />
-            <SwitchPill
-              icon={soundEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
-              label={copy.soundOn}
-              checked={soundEnabled}
-              onCheckedChange={(checked) => {
-                setSoundEnabled(checked);
                 playSound("click");
               }}
             />
@@ -457,12 +445,6 @@ export function PortfolioExperience() {
               <div className="pointer-events-none absolute inset-x-10 bottom-8 grid gap-3 md:grid-cols-2">
                 <SceneBadge label="Scene 01" title={isArabic ? "الهوية الرقمية" : "Digital Identity"} />
                 <SceneBadge label="Scene 02" title={isArabic ? "واجهة هولوغرافية" : "Holographic Interface"} />
-              </div>
-              <div className="absolute left-6 top-6 max-w-[18rem] rounded-[1.5rem] border border-white/10 bg-black/35 p-4 backdrop-blur-xl">
-                <p className="font-[var(--font-mono)] text-[10px] uppercase tracking-[0.32em] text-cyan-200/80">
-                  {copy.missionTitle}
-                </p>
-                <p className="mt-3 text-sm leading-7 text-white/80">{copy.missionBody}</p>
               </div>
             </div>
           </div>
