@@ -8,9 +8,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import Lenis from "lenis";
 import * as Dialog from "@radix-ui/react-dialog";
-import * as Switch from "@radix-ui/react-switch";
 import {
   ArrowRight,
+  BadgeCheck,
   ChevronDown,
   Download,
   ExternalLink,
@@ -21,11 +21,13 @@ import {
   Mail,
   MessageCircle,
   MoonStar,
+  Phone,
   Play,
   SunMedium,
   X,
 } from "lucide-react";
 import {
+  certificates,
   contactLinks,
   focusAreas,
   heroSignals,
@@ -44,7 +46,7 @@ import { cn } from "@/lib/utils";
 
 type CursorState = { x: number; y: number };
 
-const navTargets = ["hero", "about", "skills", "projects", "resume", "contact"] as const;
+const navTargets = ["hero", "about", "skills", "certifications", "projects", "resume", "contact"] as const;
 
 export function PortfolioExperience() {
   const { language, setLanguage, theme, setTheme, playSound } = useSite();
@@ -62,6 +64,18 @@ export function PortfolioExperience() {
 
   const copy = labels[language];
   const isArabic = language === "ar";
+  const navLabels = useMemo(
+    () => [
+      copy.nav[0],
+      copy.nav[1],
+      copy.nav[2],
+      copy.certifications,
+      copy.nav[3],
+      copy.nav[4],
+      copy.nav[5],
+    ],
+    [copy],
+  );
 
   const filteredProjects = useMemo(() => {
     return projectFilter === "all"
@@ -181,14 +195,20 @@ export function PortfolioExperience() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveNav(entry.target.id as (typeof navTargets)[number]);
-            playSound("transition");
-          }
-        });
+        const visibleEntries = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        const current = visibleEntries[0];
+        if (current) {
+          setActiveNav(current.target.id as (typeof navTargets)[number]);
+          playSound("transition");
+        }
       },
-      { threshold: 0.45 },
+      {
+        threshold: [0.16, 0.3, 0.45],
+        rootMargin: "-22% 0px -52% 0px",
+      },
     );
 
     navTargets.forEach((target) => {
@@ -232,6 +252,9 @@ export function PortfolioExperience() {
   };
 
   const scrollToSection = (id: string) => {
+    if (navTargets.includes(id as (typeof navTargets)[number])) {
+      setActiveNav(id as (typeof navTargets)[number]);
+    }
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
     playSound("click");
   };
@@ -251,11 +274,18 @@ export function PortfolioExperience() {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="mb-8 flex h-24 w-24 items-center justify-center rounded-[2rem] border border-white/10 bg-white/5 text-[1.9rem] font-semibold text-cyan-300 shadow-[0_0_60px_rgba(77,216,255,0.22)]"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 7, ease: "linear", repeat: Number.POSITIVE_INFINITY }}
+              className="mb-8 flex h-24 w-24 items-center justify-center rounded-[2rem] border border-white/10 bg-white/5 p-2 shadow-[0_0_60px_rgba(77,216,255,0.22)]"
+              animate={{ y: [0, -4, 0], scale: [1, 1.03, 1] }}
+              transition={{ duration: 2.8, ease: "easeInOut", repeat: Number.POSITIVE_INFINITY }}
             >
-              AY
+              <Image
+                src="/brand-logo.png"
+                alt="Ameen Logo"
+                width={84}
+                height={58}
+                className="h-auto w-[4.25rem] object-contain"
+                priority
+              />
             </motion.div>
             <p className="mb-3 font-[var(--font-display)] text-sm uppercase tracking-[0.38em] text-cyan-200/75">
               {copy.loading}
@@ -293,25 +323,38 @@ export function PortfolioExperience() {
         />
       </div>
 
-      <header className="fixed inset-x-0 top-0 z-[95] px-4 py-4 md:px-8">
-          <div className="glass-panel-strong mx-auto flex w-full max-w-7xl items-center justify-between gap-4 rounded-full px-4 py-3 shadow-[0_18px_50px_rgba(0,0,0,0.25)] md:px-6">
+      <header className={cn("fixed inset-x-0 top-0 z-[95] px-4 md:px-8", isArabic ? "py-4" : "py-2.5")}>
+          <div className={cn(
+            "glass-panel-strong mx-auto flex w-full max-w-7xl items-center justify-between rounded-full shadow-[0_18px_50px_rgba(0,0,0,0.25)]",
+            isArabic ? "gap-4 px-4 py-3 md:px-6" : "gap-3 px-3 py-2 md:px-4",
+          )}>
           <button
-            className="group flex items-center gap-3"
+            className={cn("group flex items-center", isArabic ? "gap-3" : "gap-2")}
             onClick={() => scrollToSection("hero")}
             onMouseEnter={() => playSound("hover")}
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/6 font-[var(--font-display)] text-lg text-cyan-300">
-              AY
+            <span className={cn(
+              "flex items-center justify-center rounded-2xl border border-white/10 bg-white/6 p-1",
+              isArabic ? "h-11 w-11" : "h-9 w-9",
+            )}>
+              <Image
+                src="/brand-logo.png"
+                alt="Ameen Logo"
+                width={34}
+                height={24}
+                className="h-auto w-full max-w-[1.85rem] object-contain"
+                priority
+              />
             </span>
             <span className="hidden text-left md:block">
-              <strong className="block text-sm">{profile.name.en}</strong>
-              <span className="text-xs text-muted">{profile.role.en}</span>
+              <strong className={cn("block", isArabic ? "text-sm" : "text-[13px] leading-4")}>{profile.name.en}</strong>
+              <span className={cn("text-muted", isArabic ? "text-xs" : "text-[11px] leading-4")}>{profile.role.en}</span>
             </span>
           </button>
 
           <nav className={cn("hidden items-center lg:flex", isArabic ? "gap-5" : "gap-3.5")}>
-            {copy.nav.map((item, index) => {
-              const sectionId = navTargets[index];
+            {navTargets.map((sectionId, index) => {
+              const item = navLabels[index];
               return (
                 <button
                   key={sectionId}
@@ -332,7 +375,7 @@ export function PortfolioExperience() {
             })}
           </nav>
 
-          <div className="flex flex-wrap items-center justify-end gap-2">
+          <div className={cn("flex items-center justify-end gap-2", isArabic ? "flex-wrap" : "flex-nowrap")}>
             <ControlPill
               icon={<Languages className="h-4 w-4" />}
               label={copy.language}
@@ -344,7 +387,6 @@ export function PortfolioExperience() {
               }}
             />
             <SwitchPill
-              icon={theme === "dark" ? <MoonStar className="h-4 w-4" /> : <SunMedium className="h-4 w-4" />}
               label={copy.theme}
               checked={theme === "light"}
               compact={!isArabic}
@@ -397,6 +439,17 @@ export function PortfolioExperience() {
                     ))}
                   </div>
 
+                  <div className="mb-6 inline-flex rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-2">
+                    <Image
+                      src="/brand-logo.png"
+                      alt="Ameen Logo"
+                      width={120}
+                      height={82}
+                      className="h-auto w-20 object-contain md:w-24"
+                      priority
+                    />
+                  </div>
+
                   <h1 className="font-[var(--font-display)] text-[clamp(2.6rem,6vw,6rem)] leading-[0.9] tracking-[0.03em]">
                     {isArabic ? profile.name.ar : profile.name.en}
                   </h1>
@@ -446,8 +499,8 @@ export function PortfolioExperience() {
                 <HeroScene />
               </div>
               <div className="pointer-events-none absolute inset-x-10 bottom-8 grid gap-3 md:grid-cols-2">
-                <SceneBadge label="Scene 01" title={isArabic ? "الهوية الرقمية" : "Digital Identity"} />
-                <SceneBadge label="Scene 02" title={isArabic ? "واجهة هولوغرافية" : "Holographic Interface"} />
+                <SceneBadge label="Scene 01" title={isArabic ? "الحضور المهني" : "Professional Presence"} />
+                <SceneBadge label="Scene 02" title={isArabic ? "إطار تقني تفاعلي" : "Interactive Tech Frame"} />
               </div>
             </div>
           </div>
@@ -459,7 +512,7 @@ export function PortfolioExperience() {
               <motion.div data-reveal className="glass-panel section-edge rounded-[2rem] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.25)]">
                 <div className="relative mb-6 overflow-hidden rounded-[1.5rem] border border-white/8 bg-gradient-to-br from-cyan-300/10 via-blue-500/10 to-violet-500/12 p-4">
                   <Image
-                    src="/ameen-cinematic.png"
+                    src="/ameen-main.png"
                     alt={profile.name.en}
                     width={900}
                     height={900}
@@ -588,6 +641,76 @@ export function PortfolioExperience() {
                   </motion.div>
                 ))}
               </div>
+            </div>
+          </SectionShell>
+        </section>
+
+        <section id="certifications" data-scene className="px-4 py-16 md:px-8">
+          <SectionShell
+            title={copy.certifications}
+            kicker="PROFESSIONAL CERTIFICATES"
+            description={
+              isArabic
+                ? "مجموعة شهادات معتمدة توثق التدريب العملي والتأهيل المهني في الأنظمة المحاسبية المؤسسية."
+                : "Verified certificates documenting hands-on training and professional readiness in enterprise accounting systems."
+            }
+            language={language}
+          >
+            <div className="grid gap-5 lg:grid-cols-2">
+              {certificates.map((certificate, index) => (
+                <motion.article
+                  key={certificate.id}
+                  data-reveal
+                  className="group glass-panel section-edge overflow-hidden rounded-[2rem]"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.35 }}
+                  transition={{ duration: 0.8, delay: index * 0.08 }}
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    <Image
+                      src={certificate.image}
+                      alt={certificate.title[language]}
+                      fill
+                      className="object-cover transition duration-700 group-hover:scale-[1.03]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#020817]/80 to-transparent" />
+                    <div className="absolute left-4 top-4 rounded-full border border-white/10 bg-black/40 px-3 py-1 font-[var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-cyan-200">
+                      #{certificate.serialNo}
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 p-5">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <h3 className="text-xl font-semibold">{certificate.title[language]}</h3>
+                        <p className="mt-2 text-sm text-muted">{certificate.issuer[language]}</p>
+                      </div>
+                      <BadgeCheck className="h-5 w-5 shrink-0 text-cyan-300" />
+                    </div>
+
+                    <div className="grid gap-2 text-sm">
+                      <div className="flex items-center justify-between rounded-xl border border-white/8 bg-white/[0.03] px-3 py-2">
+                        <span className="text-white/75">{isArabic ? "تاريخ الشهادة" : "Issue Date"}</span>
+                        <span className="font-[var(--font-mono)] text-cyan-200">{certificate.date}</span>
+                      </div>
+                      <div className="flex items-center justify-between rounded-xl border border-white/8 bg-white/[0.03] px-3 py-2">
+                        <span className="text-white/75">{isArabic ? "الفترة" : "Period"}</span>
+                        <span className="text-xs text-cyan-100">{certificate.period[language]}</span>
+                      </div>
+                    </div>
+
+                    <Link
+                      href={certificate.image}
+                      target="_blank"
+                      className="inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm text-white transition hover:bg-cyan-300/20"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      {isArabic ? "عرض الشهادة" : "View Certificate"}
+                    </Link>
+                  </div>
+                </motion.article>
+              ))}
             </div>
           </SectionShell>
         </section>
@@ -748,38 +871,59 @@ export function PortfolioExperience() {
                       {item.href ? (
                         <Link
                           href={item.href}
-                          target="_blank"
+                          target={item.href.startsWith("http") ? "_blank" : "_self"}
                           className="flex items-center justify-between rounded-[1.4rem] border border-white/10 bg-white/[0.03] px-4 py-4 text-white/80 transition hover:border-cyan-300/30 hover:text-white"
                         >
-                          <span className="flex items-center gap-3">
+                          <div className="flex items-center gap-3">
                             {item.label === "GitHub" && <Github className="h-5 w-5" />}
                             {item.label === "LinkedIn" && <Linkedin className="h-5 w-5" />}
                             {item.label === "Email" && <Mail className="h-5 w-5" />}
                             {item.label === "WhatsApp" && <MessageCircle className="h-5 w-5" />}
-                            {item.label}
-                          </span>
+                            {item.label === "Phone" && <Phone className="h-5 w-5" />}
+                            <div>
+                              <p>{item.label}</p>
+                              <p className="text-xs text-muted">{item.note[language]}</p>
+                            </div>
+                          </div>
                           <ExternalLink className="h-4 w-4" />
                         </Link>
                       ) : (
-                        <div className="rounded-[1.4rem] border border-dashed border-white/10 bg-white/[0.03] px-4 py-4 text-white/75">
-                          <div className="flex items-center justify-between gap-3">
-                            <span className="flex items-center gap-3">
-                              {item.label === "GitHub" && <Github className="h-5 w-5" />}
-                              {item.label === "LinkedIn" && <Linkedin className="h-5 w-5" />}
-                              {item.label === "Email" && <Mail className="h-5 w-5" />}
-                              {item.label === "WhatsApp" && <MessageCircle className="h-5 w-5" />}
-                              {item.label}
-                            </span>
-                            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-cyan-200">
-                              {isArabic ? "قريبًا" : "Pending"}
-                            </span>
+                        <div className="rounded-[1.4rem] border border-white/10 bg-white/[0.03] px-4 py-4 text-white/75">
+                          <div className="flex items-center gap-3">
+                            {item.label === "GitHub" && <Github className="h-5 w-5" />}
+                            {item.label === "LinkedIn" && <Linkedin className="h-5 w-5" />}
+                            {item.label === "Email" && <Mail className="h-5 w-5" />}
+                            {item.label === "WhatsApp" && <MessageCircle className="h-5 w-5" />}
+                            {item.label === "Phone" && <Phone className="h-5 w-5" />}
+                            <div>
+                              <p>{item.label}</p>
+                              <p className="text-xs text-muted">{item.note[language]}</p>
+                            </div>
                           </div>
-                          <p className="mt-3 text-sm leading-6 text-muted">{item.note[language]}</p>
                         </div>
                       )}
                     </motion.div>
                   ))}
                 </div>
+
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  <Link
+                    href="tel:778530052"
+                    className="inline-flex items-center justify-center gap-2 rounded-[1.2rem] border border-cyan-300/28 bg-cyan-300/10 px-4 py-3 text-sm font-medium text-white transition hover:bg-cyan-300/18"
+                  >
+                    <Phone className="h-4 w-4" />
+                    {isArabic ? "اتصال مباشر" : "Direct Call"}
+                  </Link>
+                  <Link
+                    href="https://wa.me/967778530052"
+                    target="_blank"
+                    className="inline-flex items-center justify-center gap-2 rounded-[1.2rem] border border-cyan-300/28 bg-cyan-300/10 px-4 py-3 text-sm font-medium text-white transition hover:bg-cyan-300/18"
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    {isArabic ? "مراسلة واتساب" : "WhatsApp Chat"}
+                  </Link>
+                </div>
+
                 <div className="mt-5 rounded-[1.5rem] border border-cyan-300/18 bg-cyan-300/8 p-4">
                   <p className="font-[var(--font-mono)] text-[11px] uppercase tracking-[0.24em] text-cyan-200">
                     {copy.responseTime}
@@ -1027,25 +1171,26 @@ function ControlPill({
     <button
       onClick={onClick}
       className={cn(
-        "inline-flex min-h-10 items-center gap-2 rounded-full border border-white/10 bg-white/5 py-1.5 text-xs text-[color:var(--foreground)]/80 transition hover:border-white/20",
-        compact ? "px-2.5 sm:px-3" : "px-3 sm:px-3.5",
+        "inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 text-xs text-[color:var(--foreground)]/80 transition hover:border-white/20",
+        compact ? "min-h-9 px-2 py-1 sm:px-2.5" : "min-h-10 px-3 py-1.5 sm:px-3.5",
       )}
     >
       <span className="shrink-0 text-cyan-300">{icon}</span>
       <span className={cn("hidden whitespace-nowrap", compact ? "xl:inline" : "md:inline")}>{label}</span>
-      <span className="min-w-9 rounded-full bg-white/8 px-2 py-0.5 text-center font-[var(--font-mono)] text-[11px]">{value}</span>
+      <span className={cn(
+        "rounded-full bg-white/8 text-center font-[var(--font-mono)] text-[11px]",
+        compact ? "min-w-8 px-1.5 py-0.5" : "min-w-9 px-2 py-0.5",
+      )}>{value}</span>
     </button>
   );
 }
 
 function SwitchPill({
-  icon,
   label,
   checked,
   onCheckedChange,
   compact = false,
 }: {
-  icon: React.ReactNode;
   label: string;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
@@ -1054,22 +1199,40 @@ function SwitchPill({
   return (
     <div
       className={cn(
-        "inline-flex min-h-10 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-[color:var(--foreground)]/80 sm:px-3.5",
-        compact ? "min-w-[6.75rem] sm:min-w-[7.25rem]" : "min-w-[8.25rem] sm:min-w-[9.5rem]",
-        checked && "border-cyan-300/40 bg-cyan-300/10 shadow-[0_0_24px_rgba(77,216,255,0.18)]",
+        "inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 text-xs text-[color:var(--foreground)]/80",
+        compact ? "min-h-9 min-w-[6rem] px-2 py-1 sm:min-w-[6.5rem] sm:px-2.5" : "min-h-10 min-w-[8.25rem] px-3 py-1.5 sm:min-w-[9.5rem] sm:px-3.5",
+        checked ? "border-cyan-300/35 bg-cyan-300/10" : "border-white/10",
       )}
     >
-      <span className={cn("shrink-0", checked ? "text-cyan-300" : "text-[color:var(--foreground)]/70")}>
-        {icon}
-      </span>
-      <span className={cn("min-w-0 flex-1 whitespace-nowrap hidden", compact ? "xl:inline" : "md:inline")}>{label}</span>
-      <Switch.Root
-        checked={checked}
-        onCheckedChange={onCheckedChange}
-        className="relative ml-1 h-6 w-10 shrink-0 rounded-full border border-white/10 bg-white/12 transition data-[state=checked]:border-cyan-300/30 data-[state=checked]:bg-cyan-300/40 rtl:ml-0 rtl:mr-1"
-      >
-        <Switch.Thumb className="block h-4 w-4 translate-x-0.5 rounded-full bg-white shadow-sm transition data-[state=checked]:translate-x-[1.05rem]" />
-      </Switch.Root>
+      <span className={cn("hidden whitespace-nowrap", compact ? "xl:inline" : "md:inline")}>{label}</span>
+      <div className="grid h-7 w-[4.15rem] grid-cols-2 rounded-full border border-white/10 bg-white/8 p-0.5">
+        <button
+          type="button"
+          aria-label="Dark mode"
+          onClick={() => onCheckedChange(false)}
+          className={cn(
+            "flex items-center justify-center rounded-full transition",
+            !checked
+              ? "bg-white text-slate-900 shadow-[0_1px_10px_rgba(255,255,255,0.18)]"
+              : "text-white/65 hover:text-white",
+          )}
+        >
+          <MoonStar className="h-3.5 w-3.5" />
+        </button>
+        <button
+          type="button"
+          aria-label="Light mode"
+          onClick={() => onCheckedChange(true)}
+          className={cn(
+            "flex items-center justify-center rounded-full transition",
+            checked
+              ? "bg-cyan-300 text-slate-950 shadow-[0_1px_12px_rgba(77,216,255,0.35)]"
+              : "text-white/65 hover:text-white",
+          )}
+        >
+          <SunMedium className="h-3.5 w-3.5" />
+        </button>
+      </div>
     </div>
   );
 }
@@ -1107,3 +1270,4 @@ function Field({
     </label>
   );
 }
+

@@ -15,8 +15,18 @@ export type Project = {
   image: string;
 };
 
+export type Certificate = {
+  id: string;
+  title: LocalizedText;
+  issuer: LocalizedText;
+  date: string;
+  period: LocalizedText;
+  serialNo: string;
+  image: string;
+};
+
 export type ContactLink = {
-  label: "GitHub" | "LinkedIn" | "Email" | "WhatsApp";
+  label: "GitHub" | "LinkedIn" | "Email" | "WhatsApp" | "Phone";
   href?: string;
   note: LocalizedText;
 };
@@ -387,6 +397,109 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=1200&q=80",
   },
+  {
+    title: {
+      ar: "محفظة رزق",
+      en: "Rizq Wallet",
+    },
+    description: {
+      ar: "منصة محفظة رقمية لإدارة الرصيد والتحويلات والمدفوعات مع سجل عمليات منظم ولوحة متابعة مباشرة.",
+      en: "A digital wallet platform for balance management, transfers, and payments with organized transaction history.",
+    },
+    technologies: ["Next.js", "TypeScript", "REST API", "PostgreSQL"],
+    category: "systems",
+    github: "https://github.com/",
+    demo: "https://example.com/",
+    image:
+      "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: {
+      ar: "نظام إدارة مستشفى",
+      en: "Hospital Management System",
+    },
+    description: {
+      ar: "نظام متكامل لإدارة العيادات والمرضى والمواعيد والفوترة الطبية مع تتبع دقيق لحالة كل ملف.",
+      en: "A complete system for managing clinics, patients, appointments, and billing with detailed case tracking.",
+    },
+    technologies: ["React", "Node.js", "MySQL", "Dashboard UI"],
+    category: "systems",
+    github: "https://github.com/",
+    demo: "https://example.com/",
+    image:
+      "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: {
+      ar: "نظام استشارة للحجوزات الطبية",
+      en: "Medical Consultation Booking System",
+    },
+    description: {
+      ar: "منصة لحجز الاستشارات الطبية بشكل ذكي مع جدولة المواعيد وإدارة الأطباء وتنبيهات للمراجعين.",
+      en: "A smart platform for booking medical consultations with doctor scheduling and patient reminders.",
+    },
+    technologies: ["Next.js", "Prisma", "PostgreSQL", "Notifications"],
+    category: "database",
+    github: "https://github.com/",
+    demo: "https://example.com/",
+    image:
+      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: {
+      ar: "بوت دردشة بدون نت",
+      en: "Offline Chatbot",
+    },
+    description: {
+      ar: "بوت محادثة يعمل بدون اتصال مباشر بالإنترنت للاستخدام المحلي داخل الأنظمة مع قاعدة معرفة مهيكلة.",
+      en: "A chatbot that runs offline for local environments with a structured knowledge base.",
+    },
+    technologies: ["TypeScript", "Local Storage", "NLP", "PWA"],
+    category: "network",
+    github: "https://github.com/",
+    demo: "https://example.com/",
+    image:
+      "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=1200&q=80",
+  },
+];
+
+export const certificates: Certificate[] = [
+  {
+    id: "yemensoft-ias-plus",
+    title: {
+      ar: "النظام المحاسبي المتكامل بلس",
+      en: "Integrated Accounting System Plus",
+    },
+    issuer: {
+      ar: "يمن سوفت - فرع صنعاء",
+      en: "YemenSoft - Sana'a Branch",
+    },
+    date: "2022-12-27",
+    period: {
+      ar: "من 06/11/2022 إلى 06/12/2022",
+      en: "From 06/11/2022 to 06/12/2022",
+    },
+    serialNo: "04830",
+    image: "/certificates/yemensoft-certificate-1.jpg",
+  },
+  {
+    id: "yemensoft-onyx-erp",
+    title: {
+      ar: "النظام المحاسبي أونكس ERP",
+      en: "Onyx ERP System",
+    },
+    issuer: {
+      ar: "يمن سوفت - فرع صنعاء",
+      en: "YemenSoft - Sana'a Branch",
+    },
+    date: "2023-05-11",
+    period: {
+      ar: "من 14/05/2023 إلى 10/06/2023",
+      en: "From 14/05/2023 to 10/06/2023",
+    },
+    serialNo: "04771",
+    image: "/certificates/yemensoft-certificate-2.jpg",
+  },
 ];
 
 export const resumeTimeline = [
@@ -463,10 +576,18 @@ export const contactLinks: ContactLink[] = [
   },
   {
     label: "WhatsApp",
-    href: "",
+    href: "https://wa.me/967778530052",
     note: {
-      ar: "أضف رقم واتساب الرسمي لتواصل سريع عند الحاجة.",
-      en: "Add your official WhatsApp number for fast communication.",
+      ar: "778530052",
+      en: "778530052",
+    },
+  },
+  {
+    label: "Phone",
+    href: "tel:778530052",
+    note: {
+      ar: "778530052",
+      en: "778530052",
     },
   },
 ];
