@@ -309,7 +309,7 @@ export function PortfolioExperience() {
             </span>
           </button>
 
-          <nav className="hidden items-center gap-5 lg:flex">
+          <nav className={cn("hidden items-center lg:flex", isArabic ? "gap-5" : "gap-3.5")}>
             {copy.nav.map((item, index) => {
               const sectionId = navTargets[index];
               return (
@@ -318,7 +318,8 @@ export function PortfolioExperience() {
                   onClick={() => scrollToSection(sectionId)}
                   onMouseEnter={() => playSound("hover")}
                   className={cn(
-                    "relative text-sm text-white/70 transition hover:text-white",
+                    "relative transition hover:text-white",
+                    isArabic ? "text-sm" : "text-[13px]",
                     activeNav === sectionId && "text-white",
                   )}
                 >
@@ -336,6 +337,7 @@ export function PortfolioExperience() {
               icon={<Languages className="h-4 w-4" />}
               label={copy.language}
               value={language === "ar" ? "AR" : "EN"}
+              compact={!isArabic}
               onClick={() => {
                 setLanguage(language === "ar" ? "en" : "ar");
                 playSound("click");
@@ -345,6 +347,7 @@ export function PortfolioExperience() {
               icon={theme === "dark" ? <MoonStar className="h-4 w-4" /> : <SunMedium className="h-4 w-4" />}
               label={copy.theme}
               checked={theme === "light"}
+              compact={!isArabic}
               onCheckedChange={(checked) => {
                 setTheme(checked ? "light" : "dark");
                 playSound("click");
@@ -1012,20 +1015,25 @@ function ControlPill({
   label,
   value,
   onClick,
+  compact = false,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
   onClick: () => void;
+  compact?: boolean;
 }) {
   return (
     <button
       onClick={onClick}
-      className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-[color:var(--foreground)]/80 transition hover:border-white/20 sm:px-3.5"
+      className={cn(
+        "inline-flex min-h-10 items-center gap-2 rounded-full border border-white/10 bg-white/5 py-1.5 text-xs text-[color:var(--foreground)]/80 transition hover:border-white/20",
+        compact ? "px-2.5 sm:px-3" : "px-3 sm:px-3.5",
+      )}
     >
       <span className="shrink-0 text-cyan-300">{icon}</span>
-      <span className="hidden whitespace-nowrap md:inline">{label}</span>
-      <span className="rounded-full bg-white/8 px-2 py-0.5 font-[var(--font-mono)] text-[11px]">{value}</span>
+      <span className={cn("hidden whitespace-nowrap", compact ? "xl:inline" : "md:inline")}>{label}</span>
+      <span className="min-w-9 rounded-full bg-white/8 px-2 py-0.5 text-center font-[var(--font-mono)] text-[11px]">{value}</span>
     </button>
   );
 }
@@ -1035,23 +1043,26 @@ function SwitchPill({
   label,
   checked,
   onCheckedChange,
+  compact = false,
 }: {
   icon: React.ReactNode;
   label: string;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
+  compact?: boolean;
 }) {
   return (
     <div
       className={cn(
-        "inline-flex min-h-11 min-w-[8.25rem] items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-[color:var(--foreground)]/80 sm:min-w-[9.5rem] sm:px-3.5",
+        "inline-flex min-h-10 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-[color:var(--foreground)]/80 sm:px-3.5",
+        compact ? "min-w-[6.75rem] sm:min-w-[7.25rem]" : "min-w-[8.25rem] sm:min-w-[9.5rem]",
         checked && "border-cyan-300/40 bg-cyan-300/10 shadow-[0_0_24px_rgba(77,216,255,0.18)]",
       )}
     >
       <span className={cn("shrink-0", checked ? "text-cyan-300" : "text-[color:var(--foreground)]/70")}>
         {icon}
       </span>
-      <span className="min-w-0 flex-1 whitespace-nowrap hidden md:inline">{label}</span>
+      <span className={cn("min-w-0 flex-1 whitespace-nowrap hidden", compact ? "xl:inline" : "md:inline")}>{label}</span>
       <Switch.Root
         checked={checked}
         onCheckedChange={onCheckedChange}
