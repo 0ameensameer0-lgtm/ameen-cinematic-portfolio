@@ -1,0 +1,44 @@
+{
+  "certificates": [
+    {
+      "id": 1,
+      "title": "شهادة Full Stack Development",
+      "issuer": "Udacity",
+      "date": "2023",
+      "credential": "https://udacity.com/",
+      "image": "https://images.unsplash.com/photo-1516321318423-f06f70d504f0?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 2,
+      "title": "شهادة React Professional",
+      "issuer": "LinkedIn Learning",
+      "date": "2023",
+      "credential": "https://linkedin.com/",
+      "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 3,
+      "title": "شهادة AWS Solutions Architect",
+      "issuer": "Amazon Web Services",
+      "date": "2022",
+      "credential": "https://aws.amazon.com/",
+      "image": "https://images.unsplash.com/photo-1517694712061-2f47e6c51952?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 4,
+      "title": "شهادة Google Cloud Associate",
+      "issuer": "Google Cloud",
+      "date": "2022",
+      "credential": "https://cloud.google.com/",
+      "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=300&fit=crop"
+    },
+    {
+      "id": 5,
+      "title": "شهادة Node.js Developer",
+      "issuer": "Node.js Foundation",
+      "date": "2023",
+      "credential": "https://nodejs.org/",
+      "image": "https://images.unsplash.com/photo-1516321318423-f06f70d504f0?w=400&h=300&fit=crop"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "skills": [
+    {
+      "category": "Frontend",
+      "items": ["React", "Vue.js", "Angular", "TypeScript", "Tailwind CSS", "HTML/CSS", "JavaScript", "Next.js"]
+    },
+    {
+      "category": "Backend",
+      "items": ["Node.js", "Python", "Express.js", "Django", "MongoDB", "PostgreSQL", "Firebase", "REST API"]
+    },
+    {
+      "category": "Mobile",
+      "items": ["React Native", "Flutter", "Swift", "Kotlin", "Expo"]
+    },
+    {
+      "category": "Tools & DevOps",
+      "items": ["Git", "Docker", "Jenkins", "AWS", "Azure", "GitHub", "VS Code", "Figma"]
+    },
+    {
+      "category": "Soft Skills",
+      "items": ["Problem Solving", "Team Leadership", "Communication", "Project Management", "Agile/Scrum"]
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "نظام إدارة المشاريع",
+      "category": "مشاريع برمجية",
+      "description": "تطبيق ويب متكامل لإدارة المشاريع والفرق",
+      "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=400&fit=crop",
+      "tags": ["React", "Node.js", "MongoDB"],
+      "date": "2023"
+    },
+    {
+      "id": 2,
+      "title": "تطبيق التجارة الإلكترونية",
+      "category": "مشاريع برمجية",
+      "description": "متجر إلكتروني متكامل مع نظام الدفع",
+      "image": "https://images.unsplash.com/photo-1460925895917-adbbb191c38c?w=400&h=400&fit=crop",
+      "tags": ["Next.js", "Stripe", "PostgreSQL"],
+      "date": "2023"
+    },
+    {
+      "id": 3,
+      "title": "عرض تقديمي تقنية الذكاء الاصطناعي",
+      "category": "عروض تقديمية",
+      "description": "عرض احترافي عن تطبيقات الذكاء الاصطناعي",
+      "image": "https://images.unsplash.com/photo-1677442d019cecf8cdc5ee9a941a01a9f6fcb4a3?w=400&h=400&fit=crop",
+      "tags": ["PowerPoint", "Design"],
+      "date": "2023"
+    },
+    {
+      "id": 4,
+      "title": "منصة التعليم الإلكترونية",
+      "category": "مشاريع تخرج",
+      "description": "منصة تعليمية تفاعلية مع محتوى فيديو",
+      "image": "https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=400&h=400&fit=crop",
+      "tags": ["Vue.js", "Firebase", "WebRTC"],
+      "date": "2022"
+    },
+    {
+      "id": 5,
+      "title": "تطبيق الطقس الذكي",
+      "category": "مشاريع برمجية",
+      "description": "تطبيق متقدم لعرض البيانات الجوية",
+      "image": "https://images.unsplash.com/photo-1512941691920-25bda36dc643?w=400&h=400&fit=crop",
+      "tags": ["React Native", "API", "Maps"],
+      "date": "2023"
+    },
+    {
+      "id": 6,
+      "title": "عرض استراتيجية التسويق الرقمي",
+      "category": "عروض تقديمية",
+      "description": "عرض شامل لاستراتيجيات التسويق الحديثة",
+      "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=400&fit=crop",
+      "tags": ["Keynote", "Analytics"],
+      "date": "2023"
+    }
+  ]
+}
