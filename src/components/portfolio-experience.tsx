@@ -36,6 +36,7 @@ import {
   profile,
   projects,
   resumeTimeline,
+  services,
   skillGroups,
   type Language,
   type Project,
@@ -46,7 +47,7 @@ import { cn } from "@/lib/utils";
 
 type CursorState = { x: number; y: number };
 
-const navTargets = ["hero", "about", "skills", "certifications", "projects", "resume", "contact"] as const;
+const navTargets = ["hero", "about", "skills", "services", "certifications", "projects", "resume", "contact"] as const;
 
 export function PortfolioExperience() {
   const { language, setLanguage, theme, setTheme, playSound } = useSite();
@@ -69,10 +70,11 @@ export function PortfolioExperience() {
       copy.nav[0],
       copy.nav[1],
       copy.nav[2],
-      copy.certifications,
       copy.nav[3],
+      copy.certifications,
       copy.nav[4],
       copy.nav[5],
+      copy.nav[6],
     ],
     [copy],
   );
@@ -467,7 +469,7 @@ export function PortfolioExperience() {
                   <div className="mt-8 flex flex-wrap gap-3">
                     <PrimaryAction onClick={() => scrollToSection("projects")} icon={<ArrowRight className="h-4 w-4" />} text={copy.viewProjects} />
                     <SecondaryAction onClick={() => scrollToSection("contact")} icon={<Mail className="h-4 w-4" />} text={copy.contactMe} />
-                    <LinkButton href="/resume-ameen-al-yosofi.pdf" icon={<Download className="h-4 w-4" />} text={copy.downloadResume} />
+                    <LinkButton href="/resume-ameen-al-yosofi" icon={<Download className="h-4 w-4" />} text={copy.downloadResume} />
                   </div>
                 </div>
 
@@ -499,15 +501,15 @@ export function PortfolioExperience() {
                 <HeroScene />
               </div>
               <div className="pointer-events-none absolute inset-x-10 bottom-8 grid gap-3 md:grid-cols-2">
-                <SceneBadge label="Scene 01" title={isArabic ? "الحضور المهني" : "Professional Presence"} />
-                <SceneBadge label="Scene 02" title={isArabic ? "إطار تقني تفاعلي" : "Interactive Tech Frame"} />
+                <SceneBadge label={isArabic ? "الملف 01" : "Profile 01"} title={isArabic ? "الخبرة التقنية" : "Technical Expertise"} />
+                <SceneBadge label={isArabic ? "الملف 02" : "Profile 02"} title={isArabic ? "حلول عملية" : "Practical Solutions"} />
               </div>
             </div>
           </div>
         </section>
 
         <section id="about" data-scene className="px-4 py-16 md:px-8">
-          <SectionShell title={copy.aboutTitle} kicker="WHO IS AMEEN?" description={copy.aboutBody} language={language}>
+          <SectionShell title={copy.aboutTitle} kicker="PROFILE OVERVIEW" description={copy.aboutBody} language={language}>
             <div className="grid gap-6 lg:grid-cols-[1fr_1.15fr]">
               <motion.div data-reveal className="glass-panel section-edge rounded-[2rem] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.25)]">
                 <div className="relative mb-6 overflow-hidden rounded-[1.5rem] border border-white/8 bg-gradient-to-br from-cyan-300/10 via-blue-500/10 to-violet-500/12 p-4">
@@ -568,7 +570,7 @@ export function PortfolioExperience() {
         </section>
 
         <section id="skills" data-scene className="px-4 py-16 md:px-8">
-          <SectionShell title={copy.skillsTitle} kicker="TECHNOLOGY ARSENAL" description={copy.skillsLegend} language={language}>
+          <SectionShell title={copy.skillsTitle} kicker="TECHNICAL EXPERTISE" description={copy.skillsLegend} language={language}>
             <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
               <motion.div data-reveal className="glass-panel section-edge relative overflow-hidden rounded-[2rem] p-6">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(77,216,255,0.12),transparent_54%)]" />
@@ -645,10 +647,37 @@ export function PortfolioExperience() {
           </SectionShell>
         </section>
 
+        <section id="services" data-scene className="px-4 py-16 md:px-8">
+          <SectionShell title={copy.servicesTitle} kicker="PROFESSIONAL SERVICES" description={copy.servicesLead} language={language}>
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+              {services.map((service, index) => (
+                <motion.article
+                  key={service.title.en}
+                  data-reveal
+                  className="glass-panel section-edge rounded-[1.8rem] p-6"
+                  initial={{ opacity: 0, y: 28 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.35 }}
+                  transition={{ duration: 0.75, delay: index * 0.08 }}
+                >
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/10 font-[var(--font-mono)] text-sm text-cyan-200">
+                    {service.icon === "systems" && "SYS"}
+                    {service.icon === "network" && "NET"}
+                    {service.icon === "database" && "DB"}
+                    {service.icon === "consulting" && "ADV"}
+                  </div>
+                  <h3 className="text-xl font-semibold">{service.title[language]}</h3>
+                  <p className="mt-3 text-sm leading-7 text-muted">{service.description[language]}</p>
+                </motion.article>
+              ))}
+            </div>
+          </SectionShell>
+        </section>
+
         <section id="certifications" data-scene className="px-4 py-16 md:px-8">
           <SectionShell
             title={copy.certifications}
-            kicker="PROFESSIONAL CERTIFICATES"
+            kicker="CERTIFICATIONS"
             description={
               isArabic
                 ? "مجموعة شهادات معتمدة توثق التدريب العملي والتأهيل المهني في الأنظمة المحاسبية المؤسسية."
@@ -716,7 +745,7 @@ export function PortfolioExperience() {
         </section>
 
         <section id="projects" data-scene className="px-4 py-16 md:px-8">
-          <SectionShell title={copy.projectsTitle} kicker="DIGITAL CREATIONS" description={copy.projectsLead} language={language}>
+          <SectionShell title={copy.projectsTitle} kicker="FEATURED PROJECTS" description={copy.projectsLead} language={language}>
             <div data-reveal className="mb-6 flex flex-wrap items-center justify-between gap-3">
               <p className="font-[var(--font-mono)] text-[11px] uppercase tracking-[0.28em] text-cyan-200">
                 {copy.filtersTitle}
@@ -807,7 +836,7 @@ export function PortfolioExperience() {
         </section>
 
         <section id="resume" data-scene className="px-4 py-16 md:px-8">
-          <SectionShell title={copy.resumeTitle} kicker="PROFESSIONAL TIMELINE" description={copy.resumeLead} language={language}>
+          <SectionShell title={copy.resumeTitle} kicker="CAREER OVERVIEW" description={copy.resumeLead} language={language}>
             <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
               <div className="space-y-4">
                 {resumeTimeline.map((item, index) => (
@@ -834,7 +863,7 @@ export function PortfolioExperience() {
                 <div>
                   <div className="mb-5 rounded-[1.6rem] border border-white/10 bg-white/[0.03] p-5">
                     <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.28em] text-cyan-200">
-                      Resume Capsule
+                      {isArabic ? "ملخص مهني" : "Professional Summary"}
                     </p>
                     <h3 className="mt-4 font-[var(--font-display)] text-3xl">
                       {profile.name[language]}
@@ -846,14 +875,14 @@ export function PortfolioExperience() {
                     {[copy.education, copy.certifications, copy.training, copy.growth].map((item) => (
                       <div key={item} className="flex items-center justify-between rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-3">
                         <span>{item}</span>
-                        <span className="font-[var(--font-mono)] text-cyan-300">READY</span>
+                        <span className="font-[var(--font-mono)] text-cyan-300">{isArabic ? "متوفر" : "Included"}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 <div className="mt-6 space-y-4">
-                  <LinkButton href="/resume-ameen-al-yosofi.pdf" icon={<Download className="h-4 w-4" />} text={copy.downloadResume} wide />
+                  <LinkButton href="/resume-ameen-al-yosofi" icon={<Download className="h-4 w-4" />} text={copy.downloadResume} wide />
                 </div>
               </motion.div>
             </div>
@@ -861,7 +890,7 @@ export function PortfolioExperience() {
         </section>
 
         <section id="contact" data-scene className="px-4 py-16 md:px-8">
-          <SectionShell title={copy.contactTitle} kicker="CONNECT WITH AMEEN" description={copy.contactLead} language={language}>
+          <SectionShell title={copy.contactTitle} kicker="CONTACT DETAILS" description={copy.contactLead} language={language}>
             <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
               <motion.div data-reveal className="glass-panel section-edge rounded-[2rem] p-6">
                 <p className="mb-5 font-[var(--font-display)] text-2xl">{copy.socialTitle}</p>
@@ -882,7 +911,7 @@ export function PortfolioExperience() {
                             {item.label === "Phone" && <Phone className="h-5 w-5" />}
                             <div>
                               <p>{item.label}</p>
-                              <p className="text-xs text-muted">{item.note[language]}</p>
+                              {item.note[language] && <p className="text-xs text-muted">{item.note[language]}</p>}
                             </div>
                           </div>
                           <ExternalLink className="h-4 w-4" />
@@ -897,7 +926,7 @@ export function PortfolioExperience() {
                             {item.label === "Phone" && <Phone className="h-5 w-5" />}
                             <div>
                               <p>{item.label}</p>
-                              <p className="text-xs text-muted">{item.note[language]}</p>
+                              {item.note[language] && <p className="text-xs text-muted">{item.note[language]}</p>}
                             </div>
                           </div>
                         </div>

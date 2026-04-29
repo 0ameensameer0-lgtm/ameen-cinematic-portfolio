@@ -31,65 +31,72 @@ export type ContactLink = {
   note: LocalizedText;
 };
 
+export type Service = {
+  icon: string;
+  title: LocalizedText;
+  description: LocalizedText;
+};
+
 export const profile = {
   name: {
     ar: "أمين سمير أمين اليوسفي",
-    en: "Ameen Sameer Ameen Al-Yosofi",
+    en: "Ameen Sameer Ameen Al-Yousofi",
   },
   role: {
-    ar: "أخصائي تقنية معلومات",
-    en: "Information Technology Specialist",
+    ar: "طالب تقنية معلومات",
+    en: "Information Technology Student",
   },
   subtitle: {
-    ar: "أخصائي تقنية معلومات | شغوف بالأنظمة والتقنية",
-    en: "IT Specialist | Systems & Technology Enthusiast",
+    ar: "طالب تقنية معلومات | مهتم بالأنظمة والحلول التقنية",
+    en: "Information Technology Student | Systems & Digital Solutions",
   },
   heroLines: [
     {
-      ar: "أخصائي تقنية معلومات",
-      en: "Information Technology Specialist",
+      ar: "طالب تقنية معلومات",
+      en: "Information Technology Student",
     },
     {
-      ar: "مسؤول أنظمة",
-      en: "System Administrator",
+      ar: "مطور حلول تقنية",
+      en: "Digital Solution Builder",
     },
     {
       ar: "شغوف بالشبكات",
       en: "Network Enthusiast",
     },
     {
-      ar: "محب لحل المشكلات",
-      en: "Problem Solver",
+      ar: "أسعى للتطوير المستمر",
+      en: "Committed to Continuous Growth",
     },
   ],
 };
 
 export const labels = {
   ar: {
-    nav: ["البداية", "من هو أمين؟", "ترسانة التقنية", "الإبداعات الرقمية", "المسار المهني", "تواصل"],
-    introBoot: ["Initializing Ameen OS...", "Loading network modules...", "Access granted..."],
-    heroTag: "The Digital Journey of Ameen Al-Yosofi",
+    nav: ["البداية", "من أنا", "الخبرات التقنية", "الخدمات", "الإبداعات الرقمية", "المسار المهني", "تواصل"],
+    introBoot: ["ملف مهني منظم", "حلول تقنية عملية", "جاهز للتعاون"],
+    heroTag: "الملف الشخصي المهني",
     heroLead:
-      "تجربة سينمائية رقمية تقدم أمين اليوسفي كهوية تقنية متكاملة: أنظمة، شبكات، وذهنية عملية تحول التعقيد إلى حلول واضحة واحترافية.",
+      "ملف شخصي رقمي يعرّف بالخبرات التقنية في الأنظمة والشبكات والبرمجة، مع تركيز واضح على الحلول العملية والتنظيم المهني.",
     viewProjects: "استعرض المشاريع",
     contactMe: "تواصل معي",
     downloadResume: "تحميل السيرة الذاتية",
-    scrollToExplore: "اسحب لتبدأ الفيلم",
-    aboutTitle: "من هو أمين؟",
+    scrollToExplore: "استعرض الملف الشخصي",
+    aboutTitle: "من أنا",
     aboutBody:
-      "أمين اليوسفي متخصص تقنية معلومات يعمل بعقلية تحليلية واضحة، وشغف مستمر بتطوير الأنظمة، فهم الشبكات، وبناء تجارب تقنية منظمة وسهلة الاستخدام.",
+      "طالب تقنية معلومات في جامعة السعيدة بصنعاء، مهتم بالأنظمة والشبكات والبرمجة وبناء حلول تقنية عملية منظمة وسهلة الاستخدام.",
     aboutBody2:
-      "هذه التجربة لا تعرض سيرة ذاتية فقط، بل تروي قصة تطور رقمي: من التعلم المنهجي، إلى بناء المهارات، إلى تنفيذ حلول تقنية قابلة للعرض والتوسع.",
-    skillsTitle: "ترسانة التقنية",
+      "يعرض هذا الملف الشخصي مسارًا تقنيًا يجمع بين الدراسة الجامعية، الدورات المتخصصة، والتعلم المستمر بهدف بناء حلول نافعة تحقق قيمة حقيقية للمجتمع.",
+    skillsTitle: "الخبرات التقنية",
+    servicesTitle: "الخدمات",
     projectsTitle: "الإبداعات الرقمية",
     resumeTitle: "المسار المهني",
-    contactTitle: "تواصل مع أمين",
-    videoScene: "المشهد السينمائي",
+    contactTitle: "التواصل",
+    videoScene: "المشهد الرئيسي",
     timelineTitle: "رحلة التعلم والإنجاز",
     contactLead:
       "إذا كنت تبحث عن شخص يبني حلولًا تقنية منظمة، واضحة، وقابلة للنمو، فهذه بداية ممتازة لحوار مهني حقيقي.",
     send: "إرسال الرسالة",
-    loading: "تحميل المشهد",
+    loading: "لا إله إلا الله",
     all: "الكل",
     liveDemo: "عرض حي",
     sourceCode: "المصدر",
@@ -106,48 +113,51 @@ export const labels = {
     formSuccess: "تم إرسال الرسالة بنجاح.",
     formError: "تعذر إرسال الرسالة، حاول مرة أخرى.",
     skillsLegend:
-      "مدارات تفاعلية تمثل مجالات المعرفة الأساسية التي يعتمد عليها أمين في بناء حلول تقنية مترابطة وواضحة.",
+      "عرض منظم للخبرات التقنية الأساسية في الأنظمة والشبكات والبرمجة وقواعد البيانات مع مستوى واضح لكل مهارة.",
+    servicesLead:
+      "خدمات تقنية عملية تركز على بناء الأنظمة، تنظيم البنية التقنية، وتحسين تجربة الاستخدام والعمل اليومي.",
     projectsLead:
-      "معرض مشاريع يعرض كل مشروع كأنه لقطة مستقلة داخل فيلم رقمي: سياق، قيمة تقنية، وواجهة عرض تضيف عمقًا للمحتوى.",
+      "مجموعة من المشاريع التطبيقية التي تعكس الخبرة في تصميم الأنظمة، إدارة البيانات، وبناء حلول رقمية عملية.",
     resumeLead:
-      "مخطط زمني متحرك يلخص التعليم، التدريب، ومسار النمو المهني بأسلوب أنيق وواضح وسهل القراءة.",
+      "ملخص أكاديمي ومهني منظم يوضح الدراسة الجامعية، الدورات، ونقاط التطور التقني بصورة مناسبة لسيرة ذاتية احترافية.",
     contactButton: "ابدأ الحوار",
     missionTitle: "لوحة التحكم",
     missionBody:
-      "مشهد افتتاحي يربط الهوية الشخصية بالجاهزية المهنية: حضور بصري، تخصص واضح، وقدرة على تحويل الفكرة إلى حل تقني منظم.",
-    reelTitle: "المشهد التفاعلي",
+      "واجهة تعريفية مختصرة تعرض التخصص، المجالات الأساسية، والجاهزية للعمل على حلول تقنية واضحة ومنظمة.",
+    reelTitle: "الملف التفاعلي",
     reelBody:
-      "صورة سينمائية وتدفق بصري يعكسان شخصية مطور يعمل وسط أنظمة، شاشات، وبيئة تقنية حيّة.",
-    filtersTitle: "فلترة المشاهد",
+      "عرض بصري احترافي يبرز الخبرة والاهتمامات التقنية بطريقة مرتبة ومباشرة.",
+    filtersTitle: "تصنيفات المشاريع",
     responseTime: "رد مهني سريع",
     availability: "متاح للتعاون على مشاريع تقنية ومبادرات تطويرية.",
     noLinkYet: "سيتم إضافة الرابط الحقيقي هنا.",
   },
   en: {
-    nav: ["Intro", "Who is Ameen?", "Technology Arsenal", "Digital Creations", "Professional Timeline", "Connect"],
-    introBoot: ["Initializing Ameen OS...", "Loading network modules...", "Access granted..."],
-    heroTag: "The Digital Journey of Ameen Al-Yosofi",
+    nav: ["Intro", "About", "Technical Expertise", "Services", "Digital Creations", "Professional Timeline", "Contact"],
+    introBoot: ["Professional profile", "Practical technical solutions", "Ready to collaborate"],
+    heroTag: "Professional Portfolio",
     heroLead:
-      "A cinematic digital experience presenting Ameen Al-Yosofi as a modern IT identity across systems, networking, and practical technical problem solving.",
+      "A professional digital portfolio presenting technical experience across systems, networking, programming, and practical solution building.",
     viewProjects: "View Projects",
     contactMe: "Contact Me",
     downloadResume: "Download Resume",
-    scrollToExplore: "Scroll to enter the film",
-    aboutTitle: "Who is Ameen?",
+    scrollToExplore: "Explore the profile",
+    aboutTitle: "About Me",
     aboutBody:
-      "Ameen Al-Yosofi is an IT specialist with an analytical mindset, a strong interest in systems and networks, and a steady habit of turning technical friction into practical outcomes.",
+      "An Information Technology student at Al-Saeed University in Sana'a with strong interest in systems, networking, programming, and practical digital solutions.",
     aboutBody2:
-      "This experience does not behave like a standard CV. It presents a digital story arc: curiosity, disciplined learning, and confident delivery through structured technical work.",
-    skillsTitle: "Technology Arsenal",
+      "This profile presents a structured technical path built around university study, specialized courses, continuous learning, and applied project work.",
+    skillsTitle: "Technical Expertise",
+    servicesTitle: "Services",
     projectsTitle: "Digital Creations",
     resumeTitle: "Professional Timeline",
-    contactTitle: "Connect with Ameen",
-    videoScene: "Cinematic Scene",
+    contactTitle: "Contact",
+    videoScene: "Main Visual",
     timelineTitle: "Learning Journey & Milestones",
     contactLead:
       "If you need someone who builds structured, scalable, and thoughtful technical solutions, this is a strong place to start the conversation.",
     send: "Send Message",
-    loading: "Loading Scene",
+    loading: "La ilaha illa Allah",
     all: "All",
     liveDemo: "Live Demo",
     sourceCode: "Source Code",
@@ -164,19 +174,21 @@ export const labels = {
     formSuccess: "Message sent successfully.",
     formError: "Unable to send the message. Please try again.",
     skillsLegend:
-      "Interactive orbital systems visualizing the core knowledge areas Ameen relies on to build connected technical solutions.",
+      "A structured overview of core technical skills across systems, networking, programming, and databases.",
+    servicesLead:
+      "Practical technical services focused on system delivery, support readiness, data organization, and digital solution building.",
     projectsLead:
-      "A project gallery where every card behaves like a separate scene with context, technical depth, and a cleaner presentation layer.",
+      "Selected practical projects that reflect experience in system design, data management, and real-world digital solutions.",
     resumeLead:
-      "An animated timeline summarizing education, training, and ongoing professional growth in a refined cinematic format.",
+      "A clear academic and professional summary covering education, training, and ongoing technical growth in a resume-friendly format.",
     contactButton: "Start the Conversation",
     missionTitle: "Mission Control",
     missionBody:
-      "An opening sequence that connects personal identity with professional readiness through clarity, motion, and strong technical positioning.",
-    reelTitle: "Interactive Reel",
+      "A clear opening overview focused on specialization, readiness, and practical technical value.",
+    reelTitle: "Interactive Profile",
     reelBody:
-      "A cinematic portrait and motion system that frame Ameen as a confident IT specialist inside a living digital environment.",
-    filtersTitle: "Scene Filters",
+      "A professional visual presentation that highlights technical interests, strengths, and readiness for real work.",
+    filtersTitle: "Project Filters",
     responseTime: "Professional and responsive communication",
     availability: "Available for technical collaborations, internships, and digital operations work.",
     noLinkYet: "Add the real profile link here.",
@@ -185,36 +197,36 @@ export const labels = {
 
 export const heroSignals = [
   {
-    label: "IT",
+    label: "PROFILE",
     title: {
-      ar: "أنظمة وشبكات",
-      en: "Systems & Networks",
+      ar: "ملف مهني واضح",
+      en: "Clear Professional Profile",
     },
     body: {
-      ar: "خبرة معرفية في التشغيل، المراقبة، وتنظيم البيئة التقنية.",
-      en: "Operational thinking across monitoring, support, and structured technical environments.",
+      ar: "عرض منظم يوضح التخصص، الاهتمامات التقنية، وأهم النقاط الأكاديمية والمهنية بشكل مباشر.",
+      en: "A focused presentation of specialization, technical interests, and academic-professional direction.",
     },
   },
   {
-    label: "MOVIE",
+    label: "FOCUS",
     title: {
-      ar: "سرد بصري متدرج",
-      en: "Progressive Storytelling",
+      ar: "حلول تقنية عملية",
+      en: "Practical Technical Solutions",
     },
     body: {
-      ar: "التمرير يفتح المشاهد كتجربة سينمائية متصلة بدل أقسام تقليدية منفصلة.",
-      en: "Scrolling reveals connected scenes instead of disconnected portfolio sections.",
+      ar: "التركيز على بناء حلول تقنية مرتبة وسهلة الاستخدام في الأنظمة والشبكات والمشاريع الرقمية.",
+      en: "Focused on building organized, usable technical solutions across systems, networking, and digital projects.",
     },
   },
   {
     label: "3D",
     title: {
-      ar: "هوية رقمية حيّة",
-      en: "Living Digital Identity",
+      ar: "عرض بصري احترافي",
+      en: "Professional Visual Identity",
     },
     body: {
-      ar: "بورتريه ثلاثي الأبعاد داخل إطار هولوغرافي يمنح الحضور الشخصي طابعًا تقنيًا مميزًا.",
-      en: "A 3D portrait framed by holographic motion for a stronger personal technology signature.",
+      ar: "تصميم تقني حديث يمنح الملف الشخصي حضورًا مهنيًا مناسبًا للعرض والتقديم.",
+      en: "A modern technical presentation that gives the portfolio a stronger professional presence.",
     },
   },
 ];
@@ -329,6 +341,53 @@ export const skillGroups = [
       { name: "Cybersecurity Basics", level: 73 },
       { name: "Risk Awareness", level: 79 },
     ],
+  },
+];
+
+export const services: Service[] = [
+  {
+    icon: "systems",
+    title: {
+      ar: "تصميم وتطوير الأنظمة",
+      en: "System Design & Development",
+    },
+    description: {
+      ar: "بناء أنظمة رقمية مرتبة تساعد على إدارة العمليات والبيانات بشكل أوضح وأسهل.",
+      en: "Building organized digital systems that make operations and data easier to manage.",
+    },
+  },
+  {
+    icon: "network",
+    title: {
+      ar: "الدعم الفني والشبكات",
+      en: "Technical Support & Networking",
+    },
+    description: {
+      ar: "المساعدة في تنظيم البنية التقنية، متابعة الأعطال، وتحسين جاهزية بيئات العمل التقنية.",
+      en: "Supporting technical environments through troubleshooting, network awareness, and operational readiness.",
+    },
+  },
+  {
+    icon: "database",
+    title: {
+      ar: "إدارة البيانات وقواعد البيانات",
+      en: "Data & Database Management",
+    },
+    description: {
+      ar: "تنظيم قواعد البيانات والاستعلامات وسجلات العمل بطريقة تدعم الدقة وسهولة الوصول للمعلومات.",
+      en: "Organizing databases, queries, and records in a way that improves accuracy and accessibility.",
+    },
+  },
+  {
+    icon: "consulting",
+    title: {
+      ar: "استشارات تقنية وتطوير حلول",
+      en: "Technical Consulting & Solution Planning",
+    },
+    description: {
+      ar: "تحويل المتطلبات إلى خطوات عملية واضحة مع اقتراح حلول مناسبة لطبيعة العمل والاحتياج.",
+      en: "Turning requirements into clear action plans with practical solutions suited to the work context.",
+    },
   },
 ];
 
@@ -461,6 +520,22 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=1200&q=80",
   },
+  {
+    title: {
+      ar: "نظام إدارة مدرسة",
+      en: "School Management System",
+    },
+    description: {
+      ar: "نظام متكامل لإدارة الطلاب والمعلمين والجداول والرسوم والتقارير الأكاديمية ضمن لوحة تحكم منظمة.",
+      en: "A complete system for managing students, teachers, schedules, fees, and academic reports in one organized dashboard.",
+    },
+    technologies: ["Next.js", "TypeScript", "MySQL", "Admin Dashboard"],
+    category: "systems",
+    github: "https://github.com/",
+    demo: "https://example.com/",
+    image:
+      "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80",
+  },
 ];
 
 export const certificates: Certificate[] = [
@@ -506,45 +581,45 @@ export const resumeTimeline = [
   {
     label: { ar: "التعليم", en: "Education" },
     title: {
-      ar: "مسار متخصص في تقنية المعلومات",
-      en: "Focused path in Information Technology",
+      ar: "بكالوريوس تقنية معلومات - جامعة السعيدة",
+      en: "Bachelor of Information Technology - Al-Saeed University",
     },
     body: {
-      ar: "تركيز على الأنظمة والشبكات وإدارة الموارد وفهم البنية التقنية للأعمال بأسلوب عملي.",
-      en: "Focused on systems, networks, resource management, and practical IT infrastructure thinking.",
+      ar: "طالب في جامعة السعيدة بصنعاء منذ عام 2023، وأستعد لبدء السنة الرابعة في تخصص تقنية المعلومات مع اهتمام واضح بالأنظمة والشبكات والبرمجة.",
+      en: "Studying Information Technology at Al-Saeed University in Sana'a since 2023, preparing to begin the fourth academic year with strong interest in systems, networking, and programming.",
     },
   },
   {
     label: { ar: "الشهادات", en: "Certifications" },
     title: {
-      ar: "تنمية مستمرة عبر المسارات التقنية",
-      en: "Continuous growth through technical certification paths",
+      ar: "دورات وشهادات متنوعة",
+      en: "Diverse Courses and Certifications",
     },
     body: {
-      ar: "اهتمام مستمر بتقوية المعرفة التطبيقية في الشبكات والأمن والإدارة التقنية.",
-      en: "Ongoing emphasis on practical knowledge in networks, security, and IT administration.",
+      ar: "يشمل ذلك نظام أونكس، النظام المتكامل، رخصة قيادة الحاسوب، بوربوينت متقدم، جرافكس أونلاين، ودورة CCNA أونلاين إلى جانب دورات اللغة الإنجليزية.",
+      en: "Includes Onyx ERP, Integrated Accounting System, ICDL, advanced PowerPoint, online graphics, online CCNA, and multiple English language courses.",
     },
   },
   {
     label: { ar: "التدريب", en: "Training" },
     title: {
-      ar: "مشاريع تطبيقية وبناء خبرة عملية",
-      en: "Applied projects and hands-on technical learning",
+      ar: "تدريب مستمر ومشاريع تطبيقية",
+      en: "Continuous Training and Applied Projects",
     },
     body: {
-      ar: "تحويل المهارات النظرية إلى أدوات ولوحات تشغيل ومشاريع قابلة للعرض باحترافية.",
-      en: "Turning theory into tooling, dashboards, and portfolio-grade project work.",
+      ar: "أعتمد على المشاريع التطبيقية والملف المهني لبناء خبرة عملية حقيقية بدل ادعاء خبرات وظيفية غير موجودة، مع التركيز على النماذج والأنظمة القابلة للعرض.",
+      en: "Building real practical readiness through applied projects and portfolio work rather than claiming job experience that has not happened yet.",
     },
   },
   {
     label: { ar: "تطوير المهارات", en: "Skill Growth" },
     title: {
-      ar: "تعلم مستمر موجه نحو الحلول",
-      en: "Continuous learning oriented around solutions",
+      ar: "تعلم مستمر قائم على القيم",
+      en: "Continuous Learning with Purpose",
     },
     body: {
-      ar: "توسيع المدى التقني مع تركيز خاص على الوضوح والتنظيم وسهولة الاستخدام.",
-      en: "Expanding technical range with a strong focus on clarity, structure, and usability.",
+      ar: "أسعى إلى تطوير مهاراتي باستمرار، وأطمح إلى بناء حلول تقنية نافعة تخدم المجتمع وتحقق قيمة حقيقية مع الالتزام بالإتقان في العمل.",
+      en: "Committed to continuous improvement and to building useful technical solutions that serve the community and create real value.",
     },
   },
 ];
@@ -554,24 +629,24 @@ export const contactLinks: ContactLink[] = [
     label: "GitHub",
     href: "",
     note: {
-      ar: "أضف رابط GitHub الحقيقي لعرض المشاريع البرمجية.",
-      en: "Add the real GitHub profile to showcase repositories.",
+      ar: "",
+      en: "",
     },
   },
   {
     label: "LinkedIn",
     href: "",
     note: {
-      ar: "أضف رابط LinkedIn الحقيقي لبناء الحضور المهني.",
-      en: "Add the real LinkedIn profile for professional presence.",
+      ar: "",
+      en: "",
     },
   },
   {
     label: "Email",
-    href: "",
+    href: "mailto:0ameensameer0@gmail.com",
     note: {
-      ar: "أضف بريدك المهني لتفعيل التواصل المباشر.",
-      en: "Add your professional email for direct outreach.",
+      ar: "0ameensameer0@gmail.com",
+      en: "0ameensameer0@gmail.com",
     },
   },
   {
