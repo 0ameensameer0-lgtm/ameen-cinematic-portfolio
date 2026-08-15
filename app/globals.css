@@ -2,16 +2,16 @@
 
 :root {
   color-scheme: dark;
-  --background: #020817;
-  --foreground: #f8fbff;
-  --muted: #95a4c4;
-  --line: rgba(255, 255, 255, 0.09);
-  --panel: rgba(10, 17, 33, 0.68);
-  --panel-strong: rgba(9, 16, 29, 0.88);
-  --cyan: #4dd8ff;
-  --blue: #4d7cff;
-  --violet: #a259ff;
-  --glow: rgba(77, 216, 255, 0.4);
+  --background: #050811;
+  --foreground: #eef5ff;
+  --muted: #8290aa;
+  --line: rgba(148, 182, 220, 0.1);
+  --panel: rgba(9, 14, 24, 0.76);
+  --panel-strong: rgba(7, 11, 19, 0.92);
+  --cyan: #2dd4bf;
+  --blue: #38bdf8;
+  --violet: #2563eb;
+  --glow: rgba(45, 212, 191, 0.2);
 }
 
 .light {
@@ -22,10 +22,10 @@
   --line: rgba(6, 18, 33, 0.11);
   --panel: rgba(255, 255, 255, 0.78);
   --panel-strong: rgba(255, 255, 255, 0.92);
-  --cyan: #0083ff;
-  --blue: #0067d8;
-  --violet: #7b4dff;
-  --glow: rgba(0, 131, 255, 0.2);
+  --cyan: #0f766e;
+  --blue: #0284c7;
+  --violet: #2563eb;
+  --glow: rgba(15, 118, 110, 0.16);
 }
 
 * {
@@ -38,9 +38,9 @@ html {
 
 body {
   background:
-    radial-gradient(circle at top left, rgba(77, 216, 255, 0.16), transparent 26%),
-    radial-gradient(circle at 80% 12%, rgba(162, 89, 255, 0.18), transparent 22%),
-    linear-gradient(180deg, #030915 0%, var(--background) 42%, #061323 100%);
+    radial-gradient(circle at 8% 0%, rgba(57, 200, 239, 0.09), transparent 24%),
+    radial-gradient(circle at 90% 12%, rgba(127, 101, 201, 0.1), transparent 20%),
+    linear-gradient(180deg, #02040a 0%, var(--background) 48%, #03070d 100%);
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
   min-height: 100vh;
@@ -50,9 +50,8 @@ body {
 .light body,
 body.light {
   background:
-    radial-gradient(circle at top left, rgba(77, 216, 255, 0.16), transparent 26%),
-    radial-gradient(circle at 85% 10%, rgba(123, 77, 255, 0.12), transparent 22%),
-    linear-gradient(180deg, #f7fbff 0%, var(--background) 52%, #edf6ff 100%);
+    radial-gradient(circle at 12% 0%, rgba(14, 165, 233, 0.07), transparent 22%),
+    linear-gradient(180deg, #f8fbfd 0%, #eef4f8 100%);
 }
 
 .light,
@@ -87,7 +86,12 @@ body.light [class*="text-white/85"] {
 
 .light [class*="text-white"],
 body.light [class*="text-white"] {
-  color: var(--foreground);
+  color: #102a43;
+}
+
+.light [class*="text-cyan-"],
+body.light [class*="text-cyan-"] {
+  color: #075985 !important;
 }
 
 .light [class*="hover:text-white"]:hover,
@@ -175,11 +179,111 @@ button {
 .light .glass-panel-strong,
 body.light .glass-panel,
 body.light .glass-panel-strong {
-  box-shadow: 0 16px 48px rgba(30, 61, 102, 0.08);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 12px 30px rgba(30, 61, 102, 0.08);
+  backdrop-filter: none;
 }
 
 .text-muted {
   color: var(--muted);
+}
+
+.portfolio-nav-item {
+  color: color-mix(in srgb, var(--muted) 88%, white);
+  transition: color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.portfolio-nav-icon,
+.portfolio-nav-label {
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.portfolio-nav-item:hover,
+.portfolio-nav-item.is-active {
+  color: var(--cyan);
+}
+
+.portfolio-nav-item:hover {
+  background: color-mix(in srgb, var(--cyan) 8%, transparent);
+  transform: translateY(-1px);
+}
+
+.portfolio-nav-item.is-active {
+  background: color-mix(in srgb, var(--cyan) 10%, transparent);
+}
+
+.portfolio-nav-item.is-active .portfolio-nav-icon {
+  transform: translateY(-1px) scale(1.06);
+}
+
+.portfolio-nav-indicator {
+  position: absolute;
+  inset-inline: 28%;
+  bottom: 3px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--cyan);
+}
+
+.section-description-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 4.75rem;
+  padding: 1rem 1.15rem;
+  color: rgba(233, 244, 252, 0.92);
+  background: linear-gradient(90deg, rgba(15, 118, 110, 0.12), rgba(10, 18, 30, 0.58));
+  border: 1px solid rgba(148, 182, 220, 0.18);
+  border-radius: 1rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+}
+
+/* Safety net: server-rendered content remains reachable even if client hydration is delayed. */
+.app-loader {
+  animation: loader-safety-exit 0.35s ease-out 5s forwards;
+}
+
+@keyframes loader-safety-exit {
+  to {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-loader {
+    animation-delay: 0.8s;
+  }
+}
+
+.section-description-marker {
+  width: 3px;
+  min-width: 3px;
+  align-self: stretch;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #5eead4, #38bdf8);
+}
+
+.light .section-description-card,
+body.light .section-description-card {
+  color: #18324a;
+  background: linear-gradient(90deg, rgba(13, 148, 136, 0.1), rgba(255, 255, 255, 0.88));
+  border-color: rgba(15, 118, 110, 0.18);
+  box-shadow: 0 10px 25px rgba(30, 61, 102, 0.08);
+}
+
+.light .portfolio-nav-item,
+body.light .portfolio-nav-item {
+  color: #526579;
+}
+
+.light .portfolio-nav-item:hover,
+.light .portfolio-nav-item.is-active,
+body.light .portfolio-nav-item:hover,
+body.light .portfolio-nav-item.is-active {
+  color: #0f766e;
 }
 
 .glow-ring {
@@ -190,10 +294,82 @@ body.light .glass-panel-strong {
 }
 
 .grid-bg {
+  overflow: hidden;
   background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 72px 72px;
+    linear-gradient(rgba(82, 127, 169, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(82, 127, 169, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 1px 1px, rgba(95, 219, 244, 0.38) 1px, transparent 1.6px);
+  background-position: 0 0, 0 0, 0 0;
+  background-size: 96px 96px, 96px 96px, 48px 48px;
+  animation: circuit-grid-drift 26s linear infinite;
+}
+
+.grid-bg::before,
+.grid-bg::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+}
+
+.grid-bg::before {
+  background:
+    linear-gradient(90deg, transparent 0 46%, rgba(71, 207, 238, 0.16) 48%, rgba(71, 207, 238, 0.16) 52%, transparent 54%) 0 0 / 192px 96px,
+    linear-gradient(transparent 0 46%, rgba(128, 113, 213, 0.13) 48%, rgba(128, 113, 213, 0.13) 52%, transparent 54%) 0 0 / 96px 192px;
+  mask-image: radial-gradient(ellipse at center, black 18%, transparent 72%);
+  opacity: 0.65;
+  animation: circuit-signal 12s linear infinite;
+}
+
+.grid-bg::after {
+  background: linear-gradient(110deg, transparent 44%, rgba(132, 236, 255, 0.12) 50%, transparent 56%);
+  transform: translateX(-55%);
+  animation: circuit-scan 9s ease-in-out infinite;
+}
+
+@keyframes circuit-grid-drift {
+  to { background-position: 96px 96px, 96px 96px, 48px 48px; }
+}
+
+@keyframes circuit-signal {
+  to { background-position: 192px 0, 0 192px; }
+}
+
+@keyframes circuit-scan {
+  0%, 18% { transform: translateX(-55%); opacity: 0; }
+  38% { opacity: 1; }
+  72%, 100% { transform: translateX(55%); opacity: 0; }
+}
+
+.light .grid-bg,
+body.light .grid-bg {
+  opacity: 0.18;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grid-bg,
+  .grid-bg::before,
+  .grid-bg::after {
+    animation: none;
+  }
+}
+
+.project-image-overlay {
+  background: linear-gradient(to top, rgba(2, 8, 23, 0.86), rgba(2, 8, 23, 0.22) 55%, transparent);
+}
+
+.light .project-image-overlay,
+body.light .project-image-overlay {
+  background: linear-gradient(to top, rgba(15, 42, 67, 0.35), rgba(15, 42, 67, 0.08) 55%, transparent);
+}
+
+.certificate-image-overlay {
+  background: linear-gradient(to top, rgba(2, 8, 23, 0.72), rgba(2, 8, 23, 0.08) 58%, transparent);
+}
+
+.light .certificate-image-overlay,
+body.light .certificate-image-overlay {
+  background: linear-gradient(to top, rgba(15, 42, 67, 0.16), transparent 55%);
 }
 
 .section-edge {

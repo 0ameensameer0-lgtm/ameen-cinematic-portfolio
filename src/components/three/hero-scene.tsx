@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   Float,
   Line,
@@ -10,10 +10,11 @@ import {
   Sparkles,
   useTexture,
 } from "@react-three/drei";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
+import { useSite } from "@/components/providers/site-provider";
 
-function TechGrid() {
+function TechGrid({ isLight }: { isLight: boolean }) {
   const groupRef = useRef<THREE.Group>(null);
 
   const links = useMemo(
@@ -63,7 +64,7 @@ function TechGrid() {
         <Line
           key={index}
           points={link}
-          color={index % 2 === 0 ? "#4dd8ff" : "#7eacff"}
+          color={isLight ? (index % 2 === 0 ? "#76baff" : "#b8d7ff") : (index % 2 === 0 ? "#4dd8ff" : "#7eacff")}
           transparent
           opacity={0.26}
           lineWidth={1}
@@ -74,7 +75,7 @@ function TechGrid() {
         <mesh key={`point-${index}`} position={point}>
           <sphereGeometry args={[0.04, 12, 12]} />
           <meshBasicMaterial
-            color={index % 2 === 0 ? "#81edff" : "#9ec4ff"}
+            color={isLight ? "#5aaaff" : (index % 2 === 0 ? "#81edff" : "#9ec4ff")}
             transparent
             opacity={0.9}
           />
@@ -84,83 +85,66 @@ function TechGrid() {
   );
 }
 
-function TechPanels() {
-  const groupRef = useRef<THREE.Group>(null);
+function ResponsiveCamera() {
+  const { camera, size } = useThree();
 
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.35) * 0.06;
-    }
-  });
+  useEffect(() => {
+    camera.position.z = size.width < 640 ? 7.8 : 6.5;
+    camera.updateProjectionMatrix();
+  }, [camera, size.width]);
 
-  return (
-    <group ref={groupRef}>
-      {[
-        { position: [-2.55, 1.2, -0.1] as const, color: "#153251" },
-        { position: [2.55, 0.45, -0.15] as const, color: "#142d49" },
-        { position: [-2.5, -0.85, -0.12] as const, color: "#12344a" },
-      ].map((panel, index) => (
-        <Float
-          key={`panel-${index}`}
-          speed={1.3 + index * 0.25}
-          rotationIntensity={0.14}
-          floatIntensity={0.3}
-        >
-          <group position={panel.position}>
-            <RoundedBox args={[1.15, 0.78, 0.1]} radius={0.12} smoothness={8}>
-              <meshStandardMaterial color={panel.color} metalness={0.22} roughness={0.42} />
-            </RoundedBox>
-
-            <mesh position={[0, 0.2, 0.06]}>
-              <planeGeometry args={[0.82, 0.04]} />
-              <meshBasicMaterial color="#4dd8ff" transparent opacity={0.78} />
-            </mesh>
-
-            <mesh position={[0, 0, 0.06]}>
-              <planeGeometry args={[0.52, 0.03]} />
-              <meshBasicMaterial color="#9ec4ff" transparent opacity={0.6} />
-            </mesh>
-          </group>
-        </Float>
-      ))}
-    </group>
-  );
+  return null;
 }
 
-function PortraitNode() {
-  const texture = useTexture("/ameen-main.png");
+function PortraitNode({ isLight }: { isLight: boolean }) {
+  const texture = useTexture("/ameen-portrait-new.png");
   const portraitGroup = useRef<THREE.Group>(null);
+
+  useEffect(() => {
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.needsUpdate = true;
+  }, [texture]);
 
   useFrame((state) => {
     if (portraitGroup.current) {
       portraitGroup.current.position.y = Math.sin(state.clock.elapsedTime * 1.15) * 0.06;
+      portraitGroup.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.35) * 0.012;
     }
   });
 
   return (
     <group ref={portraitGroup}>
-      <RoundedBox args={[3.46, 3.46, 0.14]} radius={0.2} smoothness={8} position={[0, 0, -0.26]}>
-        <meshStandardMaterial color="#0a1526" metalness={0.24} roughness={0.42} />
-      </RoundedBox>
-
-      <RoundedBox args={[3.22, 3.22, 0.04]} radius={0.17} smoothness={8} position={[0, 0, -0.14]}>
-        <meshStandardMaterial color="#10233a" emissive="#175169" emissiveIntensity={0.22} />
-      </RoundedBox>
-
-      <mesh position={[0, 1.36, -0.08]}>
-        <planeGeometry args={[2.62, 0.05]} />
-        <meshBasicMaterial color="#4dd8ff" transparent opacity={0.8} />
+      <mesh position={[0, 0, -0.24]}>
+        <circleGeometry args={[1.7, 64]} />
+        <meshStandardMaterial color={isLight ? "#eef6ff" : "#050c16"} metalness={0.18} roughness={0.45} />
       </mesh>
 
-      <mesh position={[0, -1.36, -0.08]}>
-        <planeGeometry args={[2.62, 0.05]} />
-        <meshBasicMaterial color="#4dd8ff" transparent opacity={0.55} />
+      <mesh position={[0, 0, -0.16]}>
+        <torusGeometry args={[1.61, 0.026, 12, 80]} />
+        <meshBasicMaterial color={isLight ? "#4da3ff" : "#52d7ff"} transparent opacity={0.95} />
+      </mesh>
+
+      <mesh position={[0, 0, -0.08]}>
+        <torusGeometry args={[1.74, 0.012, 10, 80]} />
+        <meshBasicMaterial color={isLight ? "#b6d9ff" : "#279bc6"} transparent opacity={0.72} />
+      </mesh>
+
+      <mesh position={[0, 0, -0.04]}>
+        <circleGeometry args={[1.55, 64]} />
+        <meshBasicMaterial color={isLight ? "#ffffff" : "#06101b"} />
       </mesh>
 
       <Float speed={1.2} rotationIntensity={0.04} floatIntensity={0.12}>
         <mesh position={[0, 0, 0.06]}>
-          <planeGeometry args={[2.92, 2.92]} />
-          <meshBasicMaterial map={texture} toneMapped={false} side={THREE.DoubleSide} />
+          <circleGeometry args={[1.52, 64]} />
+          <meshBasicMaterial
+            map={texture}
+            color="#ffffff"
+            alphaTest={0.08}
+            toneMapped={false}
+            fog={false}
+            side={THREE.DoubleSide}
+          />
         </mesh>
       </Float>
     </group>
@@ -168,25 +152,28 @@ function PortraitNode() {
 }
 
 export function HeroScene() {
+  const { theme } = useSite();
+  const isLight = theme === "light";
+
   return (
     <Canvas dpr={[1, 1.8]}>
       <PerspectiveCamera makeDefault position={[0, 0.15, 6.5]} fov={40} />
-      <color attach="background" args={["#030915"]} />
-      <fog attach="fog" args={["#030915", 5.5, 14]} />
+      <ResponsiveCamera />
+      <color attach="background" args={[isLight ? "#f7fbff" : "#03070d"]} />
+      <fog attach="fog" args={[isLight ? "#f7fbff" : "#03070d", 5.5, 14]} />
       <ambientLight intensity={1.2} />
       <pointLight position={[3, 4, 3]} color="#4dd8ff" intensity={14} distance={20} />
       <pointLight position={[-4, 2, 2]} color="#8da6ff" intensity={7} distance={18} />
       <spotLight position={[0, 6, 6]} angle={0.35} penumbra={0.8} intensity={16} color="#ffffff" />
-      <TechGrid />
-      <TechPanels />
-      <PortraitNode />
+      <TechGrid isLight={isLight} />
+      <PortraitNode isLight={isLight} />
       <Sparkles
         count={80}
         speed={0.4}
         size={2}
         opacity={0.45}
         scale={[8, 6, 8]}
-        color="#86ecff"
+        color={isLight ? "#8ac4ff" : "#86ecff"}
       />
       <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} autoRotate={false} />
     </Canvas>

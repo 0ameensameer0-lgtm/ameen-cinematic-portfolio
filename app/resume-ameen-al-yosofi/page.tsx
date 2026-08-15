@@ -23,8 +23,6 @@ const featuredProjects = projects.filter((project) =>
   ].includes(project.title.en),
 );
 
-const coreSkills = skillGroups.flatMap((group) => group.skills).slice(0, 10);
-
 const email = contactLinks.find((item) => item.label === "Email")?.note.en ?? "0ameensameer0@gmail.com";
 const phone = contactLinks.find((item) => item.label === "Phone")?.note.en ?? "778530052";
 
@@ -42,10 +40,11 @@ export default function ResumePage() {
                 {profile.name.en}
               </h1>
               <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
-                Programmer and Information Technology student seeking continuous growth through
-                learning, applied practice, and real technical solution building. Aiming to create
-                useful systems that serve the community and deliver real value with professionalism
-                and discipline.
+                Information Technology Student | Software Developer. Focused on web development,
+                systems, databases, and networking fundamentals; experienced with Python, JavaScript,
+                SQL, Git, Firebase, and Flutter through academic and applied projects. Seeking an
+                internship or junior opportunity to build reliable digital solutions and grow in a
+                collaborative technical environment.
               </p>
             </div>
 
@@ -60,6 +59,8 @@ export default function ResumePage() {
                 href="https://ameensameer-ameens-projects-e9d3be70.vercel.app"
               />
               <InfoLine label="University" value="Al-Saeed University - Sana'a" />
+              <InfoLine label="LinkedIn" value="Add your LinkedIn profile URL" />
+              <InfoLine label="GitHub" value="Add your GitHub profile URL" />
             </div>
           </div>
         </header>
@@ -68,17 +69,12 @@ export default function ResumePage() {
           <div>
             <SectionTitle title="Professional Summary" />
             <p className="text-sm leading-8 text-slate-700">
-              Programmer and Information Technology student striving to continuously develop
-              skills in programming and IT, relying on Allah and trusting Him in every step.
-              Believes that knowledge is a path to progress and that excellence in work is a
-              value that should always be upheld. Committed to continuous learning and keeping up
-              with modern technologies. Passionate about building software solutions and turning
-              ideas into practical applications that solve problems and provide real value to the
-              community. Also working to strengthen logical thinking, teamwork, and responsibility,
-              while maintaining professional ethics and honesty in performance. The goal is to
-              become a distinguished programmer who balances technical competence with Islamic
-              values and contributes to meaningful projects that serve people and leave a positive
-              impact. Asking Allah for success, guidance, and blessing in every effort.
+              Information Technology student with a practical interest in software development,
+              web applications, databases, systems, and computer networks. Comfortable learning
+              through structured projects and technical training, with working knowledge of
+              Python, JavaScript, SQL, Git, Firebase, and Flutter. Seeking an internship or
+              entry-level software/IT role where I can contribute to useful solutions, strengthen
+              delivery skills, and grow alongside an experienced team.
             </p>
 
             <div className="mt-8">
@@ -96,7 +92,7 @@ export default function ResumePage() {
                 <p className="mt-3 text-sm leading-7 text-slate-600">
                   Currently preparing to begin the fourth academic year. Academic path focused on
                   Information Technology foundations, systems, networking, and practical technical
-                  applications.
+                  applications. Academic average: Excellent with Honors, 94%.
                 </p>
               </article>
             </div>
@@ -113,6 +109,10 @@ export default function ResumePage() {
                       </span>
                     </div>
                     <p className="mt-3 text-sm leading-7 text-slate-600">{project.description.en}</p>
+                    <p className="mt-2 text-sm leading-7 text-slate-600">
+                      Role: Designed the project structure, implemented core user workflows, and
+                      organized the data and interface requirements as an applied student project.
+                    </p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {project.technologies.map((technology) => (
                         <span
@@ -154,21 +154,15 @@ export default function ResumePage() {
           </div>
 
           <div>
-            <SectionTitle title="Core Skills" />
-            <div className="grid gap-3">
-              {coreSkills.map((skill) => (
-                <div key={skill.name} className="rounded-2xl border border-slate-200 p-4">
-                  <div className="mb-2 flex items-center justify-between gap-3">
-                    <span className="text-sm font-medium text-slate-800">{skill.name}</span>
-                    <span className="text-xs font-semibold text-sky-700">{skill.level}%</span>
-                  </div>
-                  <div className="h-2 rounded-full bg-slate-100">
-                    <div
-                      className="h-2 rounded-full bg-gradient-to-r from-sky-500 to-cyan-400"
-                      style={{ width: `${skill.level}%` }}
-                    />
-                  </div>
-                </div>
+            <SectionTitle title="Technical Skills" />
+            <div className="grid gap-4">
+              {skillGroups.map((group) => (
+                <article key={group.title.en} className="rounded-2xl border border-slate-200 p-4">
+                  <h3 className="text-sm font-semibold text-slate-900">{group.title.en}</h3>
+                  <p className="mt-2 text-sm leading-7 text-slate-600">
+                    {group.skills.map((skill) => skill.name).join(" · ")}
+                  </p>
+                </article>
               ))}
             </div>
 
@@ -199,6 +193,9 @@ export default function ResumePage() {
                   "Advanced PowerPoint - Sana'a University",
                   "Online Graphics Course",
                   "Online CCNA Course",
+                  "Python Programming Course",
+                  "Web Development Course",
+                  "Networking Fundamentals Course",
                 ].map((course) => (
                   <div key={course} className="rounded-2xl border border-slate-200 p-4 text-sm text-slate-700">
                     {course}

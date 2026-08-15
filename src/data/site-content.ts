@@ -9,7 +9,7 @@ export type Project = {
   title: LocalizedText;
   description: LocalizedText;
   technologies: string[];
-  category: "systems" | "network" | "risk" | "database";
+  category: "systems" | "network" | "risk" | "database" | "education";
   github: string;
   demo: string;
   image: string;
@@ -304,10 +304,21 @@ export const skillGroups = [
     title: { ar: "البرمجة", en: "Programming" },
     icon: "💻",
     skills: [
+      { name: "Python", level: 78 },
+      { name: "C++", level: 72 },
+      { name: "C#", level: 70 },
+      { name: "Java", level: 68 },
+      { name: "PHP", level: 74 },
+    ],
+  },
+  {
+    title: { ar: "تطوير الويب", en: "Web Development" },
+    icon: "🌐",
+    skills: [
       { name: "HTML", level: 88 },
       { name: "CSS", level: 86 },
       { name: "JavaScript", level: 82 },
-      { name: "Python", level: 78 },
+      { name: "React", level: 76 },
     ],
   },
   {
@@ -331,15 +342,26 @@ export const skillGroups = [
     icon: "🛢",
     skills: [
       { name: "MySQL", level: 77 },
-      { name: "Database Management", level: 75 },
+      { name: "SQL", level: 76 },
+      { name: "SQL Server", level: 70 },
     ],
   },
   {
-    title: { ar: "الأمن", en: "Security" },
+    title: { ar: "الأدوات والتقنيات", en: "Tools & Technologies" },
+    icon: "🧰",
+    skills: [
+      { name: "Git & GitHub", level: 76 },
+      { name: "VS Code", level: 86 },
+      { name: "Firebase", level: 72 },
+      { name: "Flutter", level: 74 },
+    ],
+  },
+  {
+    title: { ar: "مهارات إضافية", en: "Other" },
     icon: "🛡",
     skills: [
-      { name: "Cybersecurity Basics", level: 73 },
-      { name: "Risk Awareness", level: 79 },
+      { name: "Computer Networks", level: 80 },
+      { name: "Cisco Packet Tracer", level: 74 },
     ],
   },
 ];
@@ -394,35 +416,35 @@ export const services: Service[] = [
 export const projects: Project[] = [
   {
     title: {
-      ar: "نظام إدارة المخاطر",
-      en: "Risk Management System",
+      ar: "تطبيق يسر",
+      en: "Yusr Education Platform",
     },
     description: {
-      ar: "لوحة تشغيل لإدارة المخاطر، تتبع الحالات، وتقديم رؤية واضحة للتهديدات وخطط المعالجة داخل بيئة عمل تقنية.",
-      en: "An operations dashboard for tracking risk states, mitigation actions, and visibility across technical threats.",
+      ar: "بيئة تعليمية مساندة تنظّم حضور الطلاب، وتمنح المشرف متابعة واضحة للمعلمين والأنشطة التعليمية.",
+      en: "A supportive learning environment for student attendance, teacher oversight, and organized academic activities.",
     },
-    technologies: ["Next.js", "TypeScript", "MySQL", "Charts"],
-    category: "risk",
+    technologies: ["Next.js", "TypeScript", "MySQL", "Admin Dashboard"],
+    category: "education",
     github: "https://github.com/",
     demo: "https://example.com/",
     image:
-      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80",
   },
   {
     title: {
-      ar: "لوحة مراقبة الشبكات",
-      en: "Network Monitoring Dashboard",
+      ar: "تطبيق العلم نور",
+      en: "Al-Ilm Noor Learning App",
     },
     description: {
-      ar: "لوحة عرض لحالة الشبكة والتنبيهات والأداء مع تجربة مرئية تساعد على سرعة الاستجابة واتخاذ القرار.",
-      en: "A network status and alerting dashboard with a visual experience designed for faster operational response.",
+      ar: "تطبيق تعليمي يساعد الطلاب على تنظيم الدراسة والوصول إلى محتوى وأنشطة داعمة لمسارهم الأكاديمي.",
+      en: "A learning app that helps students organize their studies and access supportive academic content and activities.",
     },
-    technologies: ["React", "Node.js", "WebSocket", "Tailwind CSS"],
-    category: "network",
+    technologies: ["React", "Node.js", "Learning Tools", "Tailwind CSS"],
+    category: "education",
     github: "https://github.com/",
     demo: "https://example.com/",
     image:
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80",
   },
   {
     title: {
@@ -574,6 +596,60 @@ export const certificates: Certificate[] = [
     },
     serialNo: "04771",
     image: "/certificates/yemensoft-certificate-2.jpg",
+  },
+  {
+    id: "sanaa-university-computer-driving-license",
+    title: {
+      ar: "رخصة قيادة الحاسوب - جامعة صنعاء",
+      en: "Sana'a University Computer Driving License",
+    },
+    issuer: {
+      ar: "جامعة صنعاء - ملتقى الطالب الجامعي - مركز التدريب والتأهيل",
+      en: "Sana'a University - University Student Forum - Rehabilitation and Training Center",
+    },
+    date: "",
+    period: {
+      ar: "40 ساعة تدريبية",
+      en: "40 hours of training",
+    },
+    serialNo: "USF20334",
+    image: "/certificates/sanaa-university-computer-driving-license.jpeg",
+  },
+  {
+    id: "graduation-project-scientific-research-writing",
+    title: {
+      ar: "إعداد مشروع التخرج (البحث العلمي)",
+      en: "Graduation Project (Scientific Research Writing)",
+    },
+    issuer: {
+      ar: "جامعة صنعاء - ملتقى الطالب الجامعي - مركز التدريب والتأهيل",
+      en: "Sana'a University - University Student Forum - Rehabilitation and Training Center",
+    },
+    date: "2026-06-22",
+    period: {
+      ar: "من 14/06/2026 إلى 15/06/2026",
+      en: "From 14/06/2026 to 15/06/2026",
+    },
+    serialNo: "",
+    image: "/certificates/graduation-project-scientific-research.jpeg",
+  },
+  {
+    id: "educational-platform-participation",
+    title: {
+      ar: "شهادة مشاركة في الدورات التدريبية",
+      en: "Certificate of Participation in Training Courses",
+    },
+    issuer: {
+      ar: "إدارة منصة خدمة تعليمية",
+      en: "Educational Service Platform",
+    },
+    date: "2025-08-15",
+    period: {
+      ar: "من 10/08/2025 إلى 15/08/2025",
+      en: "From 10/08/2025 to 15/08/2025",
+    },
+    serialNo: "",
+    image: "/certificates/educational-platform-certificate.jpeg",
   },
 ];
 

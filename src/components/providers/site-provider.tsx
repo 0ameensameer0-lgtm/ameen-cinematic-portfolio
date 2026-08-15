@@ -28,7 +28,7 @@ const SiteContext = createContext<SiteContextValue | null>(null);
 
 export function SiteProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
   const [soundEnabled, setSoundEnabled] = useState(false);
   const audioRef = useRef<AudioContext | null>(null);
   const didHydrateRef = useRef(false);

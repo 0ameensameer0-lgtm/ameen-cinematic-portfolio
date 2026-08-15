@@ -10,12 +10,17 @@ import Lenis from "lenis";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
   ArrowRight,
+  Award,
   BadgeCheck,
+  BriefcaseBusiness,
   ChevronDown,
+  Cpu,
   Download,
   ExternalLink,
+  FolderKanban,
   Github,
   Globe,
+  House,
   Languages,
   Linkedin,
   Mail,
@@ -23,7 +28,9 @@ import {
   MoonStar,
   Phone,
   Play,
+  Route,
   SunMedium,
+  UserRound,
   X,
 } from "lucide-react";
 import {
@@ -48,6 +55,7 @@ import { cn } from "@/lib/utils";
 type CursorState = { x: number; y: number };
 
 const navTargets = ["hero", "about", "skills", "services", "certifications", "projects", "resume", "contact"] as const;
+const navIcons = [House, UserRound, Cpu, BriefcaseBusiness, Award, FolderKanban, Route, Mail] as const;
 
 export function PortfolioExperience() {
   const { language, setLanguage, theme, setTheme, playSound } = useSite();
@@ -62,6 +70,7 @@ export function PortfolioExperience() {
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
   const [formMessage, setFormMessage] = useState("");
   const sceneRefs = useRef<Record<string, HTMLElement | null>>({});
+  const lenisRef = useRef<Lenis | null>(null);
 
   const copy = labels[language];
   const isArabic = language === "ar";
@@ -156,6 +165,7 @@ export function PortfolioExperience() {
       smoothWheel: true,
       duration: 1.1,
     });
+    lenisRef.current = lenis;
 
     const raf = (time: number) => {
       lenis.raf(time);
@@ -190,36 +200,36 @@ export function PortfolioExperience() {
 
     return () => {
       lenis.destroy();
+      lenisRef.current = null;
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntries = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+    const updateActiveNav = () => {
+      const readingLine = window.innerHeight * 0.32;
+      const currentSection = navTargets.find((target) => {
+        const element = document.getElementById(target);
+        if (!element) return false;
 
-        const current = visibleEntries[0];
-        if (current) {
-          setActiveNav(current.target.id as (typeof navTargets)[number]);
-          playSound("transition");
-        }
-      },
-      {
-        threshold: [0.16, 0.3, 0.45],
-        rootMargin: "-22% 0px -52% 0px",
-      },
-    );
+        const { top, bottom } = element.getBoundingClientRect();
+        return top <= readingLine && bottom > readingLine;
+      });
 
-    navTargets.forEach((target) => {
-      const element = document.getElementById(target);
-      if (element) observer.observe(element);
-    });
+      if (currentSection) {
+        setActiveNav(currentSection);
+      }
+    };
 
-    return () => observer.disconnect();
-  }, [playSound]);
+    updateActiveNav();
+    window.addEventListener("scroll", updateActiveNav, { passive: true });
+    window.addEventListener("resize", updateActiveNav);
+
+    return () => {
+      window.removeEventListener("scroll", updateActiveNav);
+      window.removeEventListener("resize", updateActiveNav);
+    };
+  }, []);
 
   useEffect(() => {
     const handleMove = (event: MouseEvent) => {
@@ -257,7 +267,17 @@ export function PortfolioExperience() {
     if (navTargets.includes(id as (typeof navTargets)[number])) {
       setActiveNav(id as (typeof navTargets)[number]);
     }
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const target = document.getElementById(id);
+    if (target && lenisRef.current) {
+      lenisRef.current.scrollTo(target, {
+        offset: -92,
+        duration: 0.85,
+        lock: true,
+        easing: (value) => 1 - Math.pow(1 - value, 4),
+      });
+    } else {
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
     playSound("click");
   };
 
@@ -272,7 +292,7 @@ export function PortfolioExperience() {
       <AnimatePresence>
         {!loadingDone && (
           <motion.div
-            className="fixed inset-0 z-[120] flex flex-col items-center justify-center bg-[#020817]"
+            className="app-loader fixed inset-0 z-[120] flex flex-col items-center justify-center bg-[#020817]"
             exit={{ opacity: 0 }}
           >
             <motion.div
@@ -281,7 +301,7 @@ export function PortfolioExperience() {
               transition={{ duration: 2.8, ease: "easeInOut", repeat: Number.POSITIVE_INFINITY }}
             >
               <Image
-                src="/brand-logo.png"
+                src="/brand-logo-2026.png"
                 alt="Ameen Logo"
                 width={84}
                 height={58}
@@ -294,7 +314,7 @@ export function PortfolioExperience() {
             </p>
             <div className="glass-panel h-2 w-[min(22rem,78vw)] overflow-hidden rounded-full">
               <motion.div
-                className="h-full rounded-full bg-gradient-to-r from-cyan-300 via-blue-400 to-violet-400"
+                className="h-full rounded-full bg-gradient-to-r from-emerald-300 via-teal-300 to-sky-300"
                 style={{ width: `${loadingValue}%` }}
               />
             </div>
@@ -318,7 +338,7 @@ export function PortfolioExperience() {
 
       <div className="fixed left-0 right-0 top-0 z-[90] h-1 bg-white/5">
         <motion.div
-          className="h-full bg-gradient-to-r from-cyan-300 via-blue-400 to-violet-400"
+          className="h-full bg-gradient-to-r from-emerald-300 via-teal-300 to-sky-300"
           style={{ scaleX: 0, transformOrigin: "0% 50%" }}
           animate={{ scaleX: loadingDone ? 1 : 0.12 }}
           transition={{ duration: 1.5 }}
@@ -336,42 +356,43 @@ export function PortfolioExperience() {
             onMouseEnter={() => playSound("hover")}
           >
             <span className={cn(
-              "flex items-center justify-center rounded-2xl border border-white/10 bg-white/6 p-1",
+              "flex items-center justify-center rounded-2xl border border-cyan-100/30 bg-cyan-100/15 p-1",
               isArabic ? "h-11 w-11" : "h-9 w-9",
             )}>
               <Image
-                src="/brand-logo.png"
+                src="/brand-logo-2026.png"
                 alt="Ameen Logo"
                 width={34}
                 height={24}
-                className="h-auto w-full max-w-[1.85rem] object-contain"
+                className="h-auto w-full max-w-[2.3rem] object-contain"
                 priority
               />
             </span>
-            <span className="hidden text-left md:block">
-              <strong className={cn("block", isArabic ? "text-sm" : "text-[13px] leading-4")}>{profile.name.en}</strong>
-              <span className={cn("text-muted", isArabic ? "text-xs" : "text-[11px] leading-4")}>{profile.role.en}</span>
+            <span className={cn("hidden md:block", isArabic ? "text-right" : "text-left")}>
+              <strong className={cn("block", isArabic ? "text-sm" : "text-[13px] leading-4")}>{profile.name[language]}</strong>
+              <span className={cn("text-muted", isArabic ? "text-xs" : "text-[11px] leading-4")}>{profile.role[language]}</span>
             </span>
           </button>
 
-          <nav className={cn("hidden items-center lg:flex", isArabic ? "gap-5" : "gap-3.5")}>
+          <nav className={cn("hidden items-center lg:flex", isArabic ? "gap-1" : "gap-1.5")} aria-label={isArabic ? "التنقل الرئيسي" : "Main navigation"}>
             {navTargets.map((sectionId, index) => {
               const item = navLabels[index];
+              const Icon = navIcons[index];
               return (
                 <button
                   key={sectionId}
                   onClick={() => scrollToSection(sectionId)}
                   onMouseEnter={() => playSound("hover")}
                   className={cn(
-                    "relative transition hover:text-white",
-                    isArabic ? "text-sm" : "text-[13px]",
-                    activeNav === sectionId && "text-white",
+                    "portfolio-nav-item group relative flex min-w-[4.25rem] flex-col items-center justify-center gap-1 rounded-xl px-2 py-2 text-center",
+                    isArabic ? "text-[11px]" : "text-[10px]",
+                    activeNav === sectionId && "is-active",
                   )}
+                  aria-current={activeNav === sectionId ? "page" : undefined}
                 >
-                  {item}
-                  {activeNav === sectionId && (
-                    <span className="absolute inset-x-0 -bottom-2 h-px bg-gradient-to-r from-cyan-300 to-violet-400" />
-                  )}
+                  <Icon className="portfolio-nav-icon h-4 w-4" strokeWidth={1.8} />
+                  <span className="portfolio-nav-label leading-none">{item}</span>
+                  {activeNav === sectionId && <motion.span layoutId="active-navigation-indicator" className="portfolio-nav-indicator" transition={{ type: "spring", stiffness: 420, damping: 32, mass: 0.55 }} />}
                 </button>
               );
             })}
@@ -443,7 +464,7 @@ export function PortfolioExperience() {
 
                   <div className="mb-6 inline-flex rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-2">
                     <Image
-                      src="/brand-logo.png"
+                      src="/brand-logo-2026.png"
                       alt="Ameen Logo"
                       width={120}
                       height={82}
@@ -469,7 +490,7 @@ export function PortfolioExperience() {
                   <div className="mt-8 flex flex-wrap gap-3">
                     <PrimaryAction onClick={() => scrollToSection("projects")} icon={<ArrowRight className="h-4 w-4" />} text={copy.viewProjects} />
                     <SecondaryAction onClick={() => scrollToSection("contact")} icon={<Mail className="h-4 w-4" />} text={copy.contactMe} />
-                    <LinkButton href="/resume-ameen-al-yosofi" icon={<Download className="h-4 w-4" />} text={copy.downloadResume} />
+                    <LinkButton href={language === "ar" ? "/resume-ameen-al-yosofi-ar.pdf" : "/resume-ameen-al-yosofi-en.pdf"} download icon={<Download className="h-4 w-4" />} text={copy.downloadResume} />
                   </div>
                 </div>
 
@@ -496,11 +517,11 @@ export function PortfolioExperience() {
               </button>
             </div>
 
-            <div data-reveal className="glass-panel section-edge relative overflow-hidden rounded-[2.25rem] p-4 shadow-[0_30px_90px_rgba(0,0,0,0.35)]">
-              <div className="relative h-[70vh] min-h-[34rem] overflow-hidden rounded-[1.8rem] bg-[#030915]">
+            <div data-reveal className="glass-panel section-edge relative self-start overflow-hidden rounded-[2.25rem] p-4 shadow-[0_30px_90px_rgba(0,0,0,0.35)] lg:mt-12">
+              <div className="relative h-[32rem] overflow-hidden rounded-[1.8rem] bg-[#030915] lg:h-[53rem]">
                 <HeroScene />
               </div>
-              <div className="pointer-events-none absolute inset-x-10 bottom-8 grid gap-3 md:grid-cols-2">
+              <div className="pointer-events-none absolute inset-x-10 bottom-8 hidden gap-3 md:grid md:grid-cols-2">
                 <SceneBadge label={isArabic ? "الملف 01" : "Profile 01"} title={isArabic ? "الخبرة التقنية" : "Technical Expertise"} />
                 <SceneBadge label={isArabic ? "الملف 02" : "Profile 02"} title={isArabic ? "حلول عملية" : "Practical Solutions"} />
               </div>
@@ -512,13 +533,13 @@ export function PortfolioExperience() {
           <SectionShell title={copy.aboutTitle} kicker="PROFILE OVERVIEW" description={copy.aboutBody} language={language}>
             <div className="grid gap-6 lg:grid-cols-[1fr_1.15fr]">
               <motion.div data-reveal className="glass-panel section-edge rounded-[2rem] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.25)]">
-                <div className="relative mb-6 overflow-hidden rounded-[1.5rem] border border-white/8 bg-gradient-to-br from-cyan-300/10 via-blue-500/10 to-violet-500/12 p-4">
+                <div className="relative mx-auto mb-6 aspect-[0.887] w-full max-w-[25rem] overflow-hidden rounded-[1.5rem] border border-white/8 bg-gradient-to-br from-cyan-300/10 via-blue-500/10 to-violet-500/12 p-4">
                   <Image
-                    src="/ameen-main.png"
+                    src="/ameen-portrait-new.png"
                     alt={profile.name.en}
                     width={900}
                     height={900}
-                    className="h-[22rem] w-full rounded-[1.2rem] object-cover"
+                    className="h-full w-full origin-bottom scale-[1.15] rounded-[1.2rem] object-contain object-bottom"
                   />
                 </div>
                 <p className="text-base leading-8 text-white/75">{copy.aboutBody2}</p>
@@ -573,12 +594,12 @@ export function PortfolioExperience() {
           <SectionShell title={copy.skillsTitle} kicker="TECHNICAL EXPERTISE" description={copy.skillsLegend} language={language}>
             <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
               <motion.div data-reveal className="glass-panel section-edge relative overflow-hidden rounded-[2rem] p-6">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(77,216,255,0.12),transparent_54%)]" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(45,212,191,0.13),transparent_54%)]" />
                 <div className="relative mx-auto flex aspect-square max-w-[31rem] items-center justify-center">
-                  <div className="absolute h-[74%] w-[74%] rounded-full border border-cyan-300/20" />
-                  <div className="absolute h-[58%] w-[58%] rounded-full border border-violet-300/20" />
+                  <div className="absolute h-[74%] w-[74%] rounded-full border border-emerald-300/25" />
+                  <div className="absolute h-[58%] w-[58%] rounded-full border border-sky-300/20" />
                   <div className="absolute h-[42%] w-[42%] rounded-full border border-white/10" />
-                  <div className="absolute flex h-40 w-40 items-center justify-center rounded-full border border-white/10 bg-black/35 text-center glow-ring">
+                  <div className="absolute flex h-40 w-40 items-center justify-center rounded-full border border-emerald-200/15 bg-black/35 text-center shadow-[0_12px_36px_rgba(5,25,34,0.24)]">
                     <div>
                       <p className="font-[var(--font-display)] text-lg">{isArabic ? "مركز التقنية" : "Tech Core"}</p>
                       <p className="mt-1 text-xs text-muted">{profile.role[language]}</p>
@@ -596,12 +617,12 @@ export function PortfolioExperience() {
                         style={{ left: `calc(50% + ${x}%)`, top: `calc(50% + ${y}%)` }}
                         animate={{ y: [0, -8, 0] }}
                         transition={{ duration: 3 + index * 0.08, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-                        whileHover={{ scale: 1.06, boxShadow: "0 0 26px rgba(77,216,255,0.24)" }}
+                        whileHover={{ scale: 1.045, y: -5, boxShadow: "0 16px 32px rgba(5,25,34,0.22)" }}
                       >
                         <span className="mb-1 text-base">{skill.icon}</span>
                         <span className="text-[11px] font-medium leading-4">{skill.name}</span>
                         <span className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/8">
-                          <span className="block h-full rounded-full bg-gradient-to-r from-cyan-300 to-violet-400" style={{ width: `${skill.level}%` }} />
+                          <span className="block h-full rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-sky-400" style={{ width: `${skill.level}%` }} />
                         </span>
                       </motion.div>
                     );
@@ -626,11 +647,11 @@ export function PortfolioExperience() {
                         <div key={skill.name} className="rounded-2xl border border-white/8 bg-white/[0.03] p-3">
                           <div className="mb-2 flex items-center justify-between gap-4 text-sm">
                             <span>{skill.name}</span>
-                            <span className="font-[var(--font-mono)] text-cyan-200">{skill.level}%</span>
+                            <span className="font-[var(--font-mono)] text-emerald-200">{skill.level}%</span>
                           </div>
                           <div className="h-2 overflow-hidden rounded-full bg-white/7">
                             <motion.div
-                              className="h-full rounded-full bg-gradient-to-r from-cyan-300 via-blue-400 to-violet-400"
+                              className="h-full rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-sky-400"
                               initial={{ width: 0 }}
                               whileInView={{ width: `${skill.level}%` }}
                               viewport={{ once: true, amount: 0.55 }}
@@ -703,7 +724,7 @@ export function PortfolioExperience() {
                       fill
                       className="object-cover transition duration-700 group-hover:scale-[1.03]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#020817]/80 to-transparent" />
+                    <div className="certificate-image-overlay absolute inset-0" />
                     <div className="absolute left-4 top-4 rounded-full border border-white/10 bg-black/40 px-3 py-1 font-[var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-cyan-200">
                       #{certificate.serialNo}
                     </div>
@@ -753,7 +774,7 @@ export function PortfolioExperience() {
               <div className="flex flex-wrap gap-3">
                 {[
                 { key: "all", label: copy.all },
-                { key: "risk", label: isArabic ? "المخاطر" : "Risk" },
+                { key: "education", label: isArabic ? "التعليم" : "Education" },
                 { key: "network", label: isArabic ? "الشبكات" : "Network" },
                 { key: "systems", label: isArabic ? "الأنظمة" : "Systems" },
                 { key: "database", label: isArabic ? "قواعد البيانات" : "Database" },
@@ -797,9 +818,17 @@ export function PortfolioExperience() {
                       fill
                       className="object-cover transition duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#020817] via-[#020817]/30 to-transparent" />
+                    <div className="project-image-overlay absolute inset-0" />
                     <div className="absolute left-5 top-5 rounded-full border border-white/10 bg-black/40 px-3 py-1 font-[var(--font-mono)] text-[11px] uppercase tracking-[0.22em] text-cyan-200">
-                      {project.category}
+                      {project.category === "education"
+                        ? isArabic ? "التعليم" : "Education"
+                        : project.category === "network"
+                          ? isArabic ? "الشبكات" : "Network"
+                          : project.category === "systems"
+                            ? isArabic ? "الأنظمة" : "Systems"
+                            : project.category === "database"
+                              ? isArabic ? "قواعد البيانات" : "Database"
+                              : isArabic ? "المخاطر" : "Risk"}
                     </div>
                   </div>
                   <div className="space-y-5 p-6">
@@ -882,7 +911,7 @@ export function PortfolioExperience() {
                 </div>
 
                 <div className="mt-6 space-y-4">
-                  <LinkButton href="/resume-ameen-al-yosofi" icon={<Download className="h-4 w-4" />} text={copy.downloadResume} wide />
+                  <LinkButton href={language === "ar" ? "/resume-ameen-al-yosofi-ar.pdf" : "/resume-ameen-al-yosofi-en.pdf"} download icon={<Download className="h-4 w-4" />} text={copy.downloadResume} wide />
                 </div>
               </motion.div>
             </div>
@@ -1067,18 +1096,19 @@ function SectionShell({
 }) {
   return (
     <div className="mx-auto max-w-7xl">
-      <div className="mb-8 grid gap-5 md:grid-cols-[0.9fr_1.1fr] md:items-end">
-        <div data-reveal>
-          <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 font-[var(--font-mono)] text-[11px] uppercase tracking-[0.28em] text-cyan-200">
+      <div className="mb-9 grid gap-5 md:grid-cols-[0.9fr_1.1fr] md:items-end">
+        <div data-reveal className="section-heading-block">
+          <span className="inline-flex rounded-full border border-emerald-200/20 bg-emerald-300/10 px-4 py-2 font-[var(--font-mono)] text-[11px] uppercase tracking-[0.28em] text-emerald-200">
             {kicker}
           </span>
-          <h2 className="mt-4 font-[var(--font-display)] text-[clamp(2rem,4.5vw,4.5rem)] leading-[0.94]">
+          <h2 className="mt-4 font-[var(--font-display)] text-[clamp(2.2rem,4.2vw,4.15rem)] leading-[0.98] tracking-[0.015em]">
             {title}
           </h2>
         </div>
-        <p data-reveal className="max-w-3xl text-base leading-8 text-muted md:justify-self-end">
-          {description}
-        </p>
+        <div data-reveal className="section-description-card max-w-3xl md:justify-self-end">
+          <span className="section-description-marker" aria-hidden="true" />
+          <p className="text-[15px] font-medium leading-8 md:text-base">{description}</p>
+        </div>
       </div>
       <div className={cn(language === "ar" ? "text-right" : "text-left")}>{children}</div>
     </div>
@@ -1100,7 +1130,7 @@ function PrimaryAction({
     <button
       type={submit ? "submit" : "button"}
       onClick={onClick}
-      className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-cyan-300/20 bg-gradient-to-r from-cyan-300 to-violet-400 px-5 text-sm font-medium text-slate-950 shadow-[0_15px_38px_rgba(77,216,255,0.25)] transition hover:-translate-y-0.5"
+      className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-emerald-200/25 bg-gradient-to-r from-emerald-300 via-teal-300 to-sky-300 px-5 text-sm font-medium text-slate-950 shadow-[0_15px_38px_rgba(20,184,166,0.22)] transition hover:-translate-y-0.5 hover:brightness-105"
     >
       {text}
       {icon}
@@ -1134,16 +1164,19 @@ function LinkButton({
   icon,
   text,
   wide,
+  download = false,
 }: {
   href: string;
   icon: React.ReactNode;
   text: string;
   wide?: boolean;
+  download?: boolean;
 }) {
   return (
     <Link
       href={href}
-      target="_blank"
+      target={download ? undefined : "_blank"}
+      download={download ? true : undefined}
       className={cn(
         "inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 text-sm font-medium text-white/80 transition hover:border-white/20 hover:text-white",
         wide && "w-full",
@@ -1299,4 +1332,3 @@ function Field({
     </label>
   );
 }
-
